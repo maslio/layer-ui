@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { width = 340, label, noHeader, embeded } = defineProps<{
+const { width = 320, label, noHeader, embeded } = defineProps<{
   width?: string | number
   label?: string
   noHeader?: boolean
@@ -14,7 +14,7 @@ const root = ref()
 const target = ref()
 const buttons = ref()
 const mobile = computed(() => {
-  return rootWidth.value < 600
+  return rootWidth.value < 640
 })
 const { close, hasParent, isParentMobile } = defineLayout({ target, mobile, buttons, embeded, emit })
 

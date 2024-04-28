@@ -3,8 +3,9 @@ import type { Placement } from '@floating-ui/vue'
 import OpenNext from './Open:Next.vue'
 import OpenFloat from './Open:Float.vue'
 import OpenModal from './Open:Modal.vue'
+import OpenFullscreen from './Open:Fullscreen.vue'
 
-type Target = 'next' | 'float' | 'modal'
+type Target = 'next' | 'float' | 'modal' | 'fullscreen'
 const props = withDefaults(defineProps<{
   label?: string
   width?: string | number
@@ -29,6 +30,8 @@ const component = computed(() => {
     return OpenFloat
   if (target === 'modal')
     return OpenModal
+  if (target === 'fullscreen')
+    return OpenFullscreen
   return OpenNext
 })
 const target = ref()

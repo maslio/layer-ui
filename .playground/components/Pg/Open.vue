@@ -104,4 +104,31 @@ import Content from './Open:Content.vue'
       </template>
     </Open>
   </List>
+
+  <List label="Fullscreen">
+    <Open target="fullscreen">
+      <Item label="Content" clickable />
+      <template #target="{ close }">
+        <Content @close="close" />
+      </template>
+    </Open>
+    <Open target="fullscreen">
+      <Item label="Loading" clickable />
+      <template #target="{ close }">
+        <Content loading @close="close" />
+      </template>
+    </Open>
+    <Open target="fullscreen">
+      <Item label="Error" clickable />
+      <template #target="{ close }">
+        <Content error @close="close" />
+      </template>
+    </Open>
+    <Open target="fullscreen" label="Fullscreen with header">
+      <Item label="With header" clickable />
+      <template #target="{ close }">
+        <Content @close="close" />
+      </template>
+    </Open>
+  </List>
 </template>

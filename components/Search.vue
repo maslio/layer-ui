@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<Props>(), {
   limit: 5,
 })
 const itemsList = ref()
-const text = ref('')
+const text = defineModel<string>({ default: '' })
 
 const focus = (function () {
   const active = ref(false)
@@ -59,10 +59,10 @@ const focus = (function () {
 
 const data = (function () {
   const limit = ref(props.limit)
-  const items = ref<Item[]>([])
+  const items = ref<Record<string, any>[]>([])
   const count = ref(0)
   const pending = ref(false)
-  watch(text, async (value) => {
+  watchDebounced(text, async (value) => {
     if (!value.length && !props.eager) {
       items.value = []
       count.value = 0
@@ -70,6 +70,8 @@ const data = (function () {
     }
     limit.value = props.limit
     exec()
+  }, {
+    debounce: 500,
   })
   async function exec() {
     pending.value = true
@@ -106,7 +108,7 @@ defineExpose({
   },
 })
 
-if (props.eager)
+if (props.eager || text.value)
   await data.exec()
 </script>
 
