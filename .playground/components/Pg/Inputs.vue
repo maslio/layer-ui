@@ -13,27 +13,27 @@ const number = ref(999)
 </script>
 
 <template>
-  <List>
+  <Card>
     <InputToggle v-model="readonly" label="Readonly" />
-  </List>
-  <List>
+  </Card>
+  <Card>
     <InputString v-model="string" label="Input string" :readonly />
     <InputText v-model="text" label="Input text" :readonly />
-  </List>
-  <List>
+  </Card>
+  <Card>
     <InputNumber v-model="number" :decimal="1" label="Input number" :readonly />
     <InputNumber v-model="number" :decimal="1" label="Input number" :readonly />
-  </List>
-  <List>
+  </Card>
+  <Card>
     <InputToggle v-model="toggle" label="Input toggle" :readonly />
-  </List>
-  <List>
+  </Card>
+  <Card>
     <InputOption v-model="option" label="Option 1" :value="1" :readonly />
     <InputOption v-model="option" label="Option 2" :value="2" :readonly />
     <InputOption v-model="option" label="Option 3" :value="3" :readonly />
-  </List>
-  <List>
+  </Card>
+  <Card>
     <InputDate v-model="date" label="Input date" :readonly />
     <InputDateRange v-model="daterange" label="Input daterange" :readonly />
-  </List>
+  </Card>
 </template>

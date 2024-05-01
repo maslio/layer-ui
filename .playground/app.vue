@@ -1,49 +1,29 @@
 <template>
   <Layout label="Ui components">
-    <List>
-      <Open label="List and Items">
-        <Item label="List and Items" next icon="material-symbols:lists-rounded" />
-        <template #target>
-          <PgItems />
-        </template>
-      </Open>
-      <Open label="Inputs">
-        <Item label="Inputs" next icon="ic:round-input" />
-        <template #target>
-          <PgInputs />
-        </template>
-      </Open>
-      <Open label="Buttons">
-        <Item label="Buttons" next icon="mdi:button-pointer" />
-        <template #target>
-          <PgButtons />
-        </template>
-      </Open>
-      <Open label="Search">
-        <Item label="Search" next icon="search" />
-        <template #target>
-          <PgSearch />
-        </template>
-      </Open>
-    </List>
-
-    <List label="Layout">
-      <Open label="Buttons">
-        <Item label="Layout buttons" next icon="mdi:gesture-tap-button" />
-        <template #target>
-          <PgLayoutButtons />
-        </template>
-      </Open>
-      <Open label="Open">
-        <Item label="Open" next icon="material-symbols:open-in-new" />
-        <template #target>
-          <PgOpen />
-        </template>
-      </Open>
-    </List>
-
-    <List label="Color mode">
+    <Card>
+      <Item label="Items" icon="material-symbols:lists-rounded">
+        <PgItems />
+      </Item>
+      <Item label="Inputs" icon="ic:round-input">
+        <PgInputs />
+      </Item>
+      <Item label="Buttons" icon="mdi:button-pointer">
+        <PgButtons />
+      </Item>
+      <Item label="Search" icon="search" open="full">
+        <PgSearch />
+      </Item>
+    </Card>
+    <Card>
+      <Item label="Layout buttons" icon="mdi:gesture-tap-button">
+        <PgLayoutButtons />
+      </Item>
+      <Item label="Open" icon="material-symbols:open-in-new">
+        <PgOpen />
+      </Item>
+    </Card>
+    <Card>
       <PgColorMode />
-    </List>
+    </Card>
   </Layout>
 </template>

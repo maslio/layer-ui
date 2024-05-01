@@ -13,18 +13,32 @@ const props = withDefaults(defineProps<{
   delay?: number
   mini?: boolean
   flat?: boolean
+  open?: 'next' | 'modal' | 'float' | 'fullscreen'
+  openLabel?: string
+  openHeader?: boolean
 }>(), {
   color: 'default',
   delay: 500,
+  open: 'float',
 })
 const emit = defineEmits(['click'])
-
+const el = ref() as Ref<HTMLElement>
+const open = ref<null | InstanceType<typeof import('./Open.vue').default>>(null)
+const slots = useSlots()
+const selected = ref(false)
 const pending = ref(false)
 const isDisabled = computed(() => props.disabled || pending.value)
 async function onClick(e: Event) {
   if (isDisabled.value)
     return
   emit('click', e)
+  e.stopPropagation()
+  e.preventDefault()
+  if (slots.default) {
+    open.value?.open()
+    return
+  }
+
   if (props.action == null)
     return
   pending.value = true
@@ -37,20 +51,20 @@ async function onClick(e: Event) {
 
 <template>
   <div
-    class="w-full embeded:my-0 embeded:px-2"
-    :class="{ 'my-3': !flat }"
+    class="embeded:my-0 embeded:px-2"
+    :class="{ 'my-3 w-full': !mini }"
   >
     <button
-      class="min-h-11 w-full rounded-xl desktop:min-h-10"
+      ref="el"
+      class="min-h-11 w-full rounded-xl font-500 desktop:min-h-10"
       :color
       :disabled="isDisabled"
-      :class="{ clickable: !isDisabled, mini, flat }"
+      :class="{ clickable: !isDisabled, mini, flat, selected }"
       @click="onClick"
     >
       <div v-if="pending">
         <Icon name="mingcute:loading-3-line" :size="mini ? '20' : '24'" animate-spin />
       </div>
-      <slot v-else-if="$slots.default" />
       <div v-else class="flex items-center justify-center gap-2">
         <Icon v-if="icon" :name="icon" />
         <div v-if="label">
@@ -58,6 +72,17 @@ async function onClick(e: Event) {
         </div>
       </div>
     </button>
+    <Open
+      v-if="$slots.default"
+      ref="open"
+      v-model="selected"
+      :label="$props.label ?? $props.openLabel"
+      :target="$props.open"
+      :parent="el"
+      :header="$props.openHeader"
+    >
+      <slot />
+    </Open>
   </div>
 </template>
 

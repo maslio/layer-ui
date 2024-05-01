@@ -1,12 +1,13 @@
 <script setup lang="ts">
-const { width = 320, label, noHeader, embeded } = defineProps<{
+const props = withDefaults(defineProps<{
   width?: string | number
   label?: string
   noHeader?: boolean
-  embeded?: boolean
-}>()
-const emit = defineEmits(['close'])
-const widthNumber = useToNumber(width)
+  close?: () => void
+}>(), {
+  width: 320,
+})
+const widthNumber = useToNumber(props.width)
 const freeWidth = ref(widthNumber.value)
 const rootWidth = ref(widthNumber.value)
 
@@ -16,7 +17,7 @@ const buttons = ref()
 const mobile = computed(() => {
   return rootWidth.value < 640
 })
-const { close, hasParent, isParentMobile } = defineLayout({ target, mobile, buttons, embeded, emit })
+const { close, hasParent, isParentMobile } = defineLayout({ target, mobile, buttons, close: props.close })
 
 useResizeObserver(root, (entries) => {
   const entry = entries[0]
@@ -27,10 +28,10 @@ useResizeObserver(root, (entries) => {
 const styleRoot = computed(() => {
   if (mobile.value)
     return { width: '100%' }
-  return { width: `${width}px` }
+  return { width: `${props.width}px` }
 })
 const closeIcon = computed(() => {
-  if (embeded)
+  if (props.close)
     return 'close'
   if (isParentMobile.value)
     return 'back'
@@ -48,7 +49,7 @@ const closeIcon = computed(() => {
     :class="{ mobile }"
   >
     <div class="left" h-full flex flex-col :style="styleRoot">
-      <header v-if="!noHeader" class="header group h-14 flex items-center gap-2 p-2 desktop:h-14">
+      <header v-if="!noHeader" class="group header h-14 flex items-center gap-2 p-2 desktop:h-14">
         <button v-if="hasParent" w-10 rounded opacity-50 hover="opacity-90" @click="close">
           <Icon :name="closeIcon" />
         </button>

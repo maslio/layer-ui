@@ -6,8 +6,7 @@ interface DefineLayout {
   target: Ref
   buttons: Ref
   mobile: ComputedRef
-  embeded: boolean
-  emit: Function
+  close?: () => void
 }
 interface LayoutState {
   target: Ref
@@ -20,7 +19,7 @@ interface LayoutState {
   }>
 }
 
-export function defineLayout({ target, mobile, embeded, buttons, emit }: DefineLayout) {
+export function defineLayout({ target, mobile, buttons, close: _close }: DefineLayout) {
   const state = <LayoutState>({
     target,
     buttons,
@@ -30,8 +29,8 @@ export function defineLayout({ target, mobile, embeded, buttons, emit }: DefineL
   })
   provide('pane:state', state)
   function close() {
-    if (embeded)
-      emit('close')
+    if (_close)
+      _close()
     else if (state.parent)
       state.parent.next.value = null
   }

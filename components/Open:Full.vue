@@ -39,16 +39,16 @@ onErrorCaptured((e: Error) => {
       <div
         v-if="selected"
         fixed left-0 top-0 h-full w-full flex items-center justify-center
-        class="embeded bg-dark-800/50 text-light"
+        class="bg-dark-800/50 text-light"
       >
         <div
           ref="modal"
           overflow-hidden rounded-xl
-          class="max-h-90% max-w-95% ring-2"
+          class="left-0 top-0 h-full w-full"
           dark="ring-dark-300"
           light="ring-neutral-200"
         >
-          <Layout :label :width embeded :no-header="!label" @close="close">
+          <Layout :label :width :no-header="!label" :close>
             <Open:Error v-if="error" :error @close="close" />
             <Suspense v-else @resolve="loading = false" @pending="loading = true">
               <slot />

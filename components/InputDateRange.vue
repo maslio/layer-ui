@@ -77,26 +77,23 @@ const caption = computed(() => {
 </script>
 
 <template>
-  <Open target="next" :label>
-    <Item :label :caption :next="!readonly" />
-    <template #target>
-      <List>
-        <Item>
-          <div px-3 py-2>
-            <div flex>
-              <div flex-1 text-center>
-                <label text-faint>Начало периода</label>
-                <InputDate:Input ref="input1" v-model="model[0]" label="Начало периода" @next="input2.select('day')" />
-              </div>
-              <div flex-1 text-center>
-                <label text-faint>Конец периода</label>
-                <InputDate:Input ref="input2" v-model="model[1]" label="Конец периода" @prev="input1.select('year')" />
-              </div>
+  <Item :label :caption>
+    <template v-if="!readonly" #default>
+      <Card>
+        <div px-3 py-2>
+          <div flex>
+            <div flex-1 text-center>
+              <label text-faint>Начало периода</label>
+              <InputDate:Input ref="input1" v-model="model[0]" label="Начало периода" @next="input2.select('day')" />
+            </div>
+            <div flex-1 text-center>
+              <label text-faint>Конец периода</label>
+              <InputDate:Input ref="input2" v-model="model[1]" label="Конец периода" @prev="input1.select('year')" />
             </div>
           </div>
-        </item>
-      </List>
-      <List>
+        </div>
+      </Card>
+      <Card>
         <InputOption
           v-for="preset in presetsDay" :key="preset.label"
           v-model="modelString"
@@ -120,8 +117,8 @@ const caption = computed(() => {
           :caption="preset.caption"
           :value="preset.value"
         />
-      </List>
+      </Card>
       <InputDate:Calendar :selected="calendarSelected" @select="onCalendarSelect" />
     </template>
-  </Open>
+  </Item>
 </template>

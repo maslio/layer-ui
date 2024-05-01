@@ -7,6 +7,7 @@ defineOptions({
 const { label, width = 250, placement, decorator } = defineProps<{
   label?: string
   width?: number
+  header?: boolean
   placement: Placement
   decorator: HTMLElement
 }>()
@@ -50,7 +51,7 @@ onErrorCaptured((e: Error) => {
     dark="ring-dark-300"
     light="ring-neutral-200"
   >
-    <Layout :label :width embeded :no-header="!label" @close="close">
+    <Layout :label :width embeded :no-header="!header" :close>
       <Open:Error v-if="error" :error @close="close" />
       <Suspense v-else @resolve="loading = false; update()" @pending="loading = true">
         <slot />

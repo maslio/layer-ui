@@ -10,7 +10,8 @@ import {
 } from 'unocss'
 import { presetScrollbar } from 'unocss-preset-scrollbar'
 
-const parentVariants = ['selected', 'focused', 'embeded', 'desktop', 'mobile']
+const parentVariants = ['focused', 'embeded', 'desktop', 'mobile']
+const selfVariants = ['selected']
 
 export default defineConfig({
   rules: [
@@ -24,8 +25,8 @@ export default defineConfig({
     'text-bright': 'dark:text-light light:text-dark',
     'text-faint': 'dark:text-neutral-400 light:text-neutral-500',
     'text-primary': 'dark:text-purple-800 light:text-purple-600',
-    'bg-positive': 'dark:bg-green-500 light:bg-green-400',
-    'bg-negative': 'dark:bg-red-500 light:bg-red-400',
+    'bg-positive': 'dark:bg-emerald-500 light:bg-emerald-400',
+    'bg-negative': 'dark:bg-rose-500 light:bg-rose-400',
     'bg-primary': 'dark:bg-purple-800 light:bg-purple-600',
     'color-back': `
       dark:(bg-dark-900 text-light)
@@ -44,12 +45,16 @@ export default defineConfig({
       light:(bg-purple-600 text-light clickable:bg-purple-500)
     `,
     'color-positive': `
-      dark:(bg-green-500 text-light)
-      light:(bg-green-400 text-light)
+      dark:(bg-emerald-500 text-gray-900)
+      light:(bg-emerald-400 text-gray-900)
+    `,
+    'color-neutral': `
+      dark:(bg-dark-100 text-light)
+      light:(bg-gray-200 text-light)
     `,
     'color-negative': `
-      dark:(bg-red-500 text-light)
-      light:(bg-red-400 text-light)
+      dark:(bg-rose-500 text-light)
+      light:(bg-rose-400 text-light)
     `,
   },
   theme: {
@@ -76,12 +81,22 @@ export default defineConfig({
         }
       }
     }),
+    ...selfVariants.map((variant) => {
+      return (matcher: string) => {
+        if (!matcher.startsWith(`${variant}:`))
+          return matcher
+        return {
+          matcher: matcher.slice(variant.length + 1),
+          selector: (s: string) => `.${variant}${s}`,
+        }
+      }
+    }),
     (matcher) => {
       if (!matcher.startsWith('clickable:'))
         return matcher
       return {
         matcher: matcher.slice(10),
-        selector: s => `.clickable${s}:hover`,
+        selector: s => `.desktop .clickable${s}:hover`,
       }
     },
   ],

@@ -22,18 +22,15 @@ const caption = computed(() => {
 </script>
 
 <template>
-  <Open target="next" :label>
-    <Item :label :caption :next="!readonly" />
-    <template #target>
-      <List>
-        <Item>
-          <div class="px-3 py-2 text-center">
-            <label text-faint>Дата</label>
-            <InputDate:Input v-model="model" />
-          </div>
-        </Item>
-      </List>
-      <List>
+  <Item :label :caption>
+    <template v-if="!readonly" #default>
+      <Card>
+        <div class="px-3 py-2 text-center">
+          <label text-faint>Дата</label>
+          <InputDate:Input v-model="model" />
+        </div>
+      </Card>
+      <Card>
         <InputOption
           v-for="preset in presets" :key="preset.label"
           v-model="model"
@@ -41,8 +38,8 @@ const caption = computed(() => {
           :caption="preset.value.format('DD.MM.YYYY')"
           :value="preset.value.format('YYYY-MM-DD')"
         />
-      </List>
+      </Card>
       <InputDate:Calendar :selected="[model]" @select="onCalendarSelect" />
     </template>
-  </Open>
+  </Item>
 </template>

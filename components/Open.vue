@@ -3,14 +3,16 @@ import type { Placement } from '@floating-ui/vue'
 import OpenNext from './Open:Next.vue'
 import OpenFloat from './Open:Float.vue'
 import OpenModal from './Open:Modal.vue'
-import OpenFullscreen from './Open:Fullscreen.vue'
+import OpenFull from './Open:Full.vue'
 
-type Target = 'next' | 'float' | 'modal' | 'fullscreen'
+type Target = 'next' | 'float' | 'modal' | 'full'
 const props = withDefaults(defineProps<{
   label?: string
   width?: string | number
   target?: Target
   mobile?: Target
+  header?: boolean
+  parent: HTMLElement
   placement?: Placement
 }>(), {
   target: 'next',
@@ -30,41 +32,31 @@ const component = computed(() => {
     return OpenFloat
   if (target === 'modal')
     return OpenModal
-  if (target === 'fullscreen')
-    return OpenFullscreen
+  if (target === 'full')
+    return OpenFull
   return OpenNext
 })
+const selected = defineModel<boolean>({ default: false })
 const target = ref()
-const decorator = ref()
 function open() {
-  if (decorator.value.querySelector('.clickable') == null)
-    return
   target.value?.open()
 }
 function close() {
   target.value?.close()
 }
 defineExpose({ open, close })
-const selected = ref(false)
 </script>
 
 <template>
   <Component
     :is="component"
-    v-if="decorator" ref="target"
+    ref="target"
     v-model="selected"
     :label
     :placement
-    :decorator
-  >
-    <slot name="target" :close />
-  </Component>
-  <div
-    ref="decorator"
-    class="decorator"
-    :class="{ selected }"
-    @click="open"
+    :decorator="parent"
+    :header
   >
     <slot />
-  </div>
+  </Component>
 </template>

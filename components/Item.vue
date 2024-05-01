@@ -1,81 +1,96 @@
 <script setup lang="ts">
-const { icon } = defineProps<{
+import type { Placement } from '@floating-ui/vue'
+
+const props = withDefaults(defineProps<{
+  icon?: string
   label?: string
   caption?: string | number
-  icon?: string
-  next?: boolean
-  down?: boolean
   clickable?: boolean
-}>()
+  open?: 'next' | 'modal' | 'float' | 'full'
+  openLabel?: string
+  openHeader?: boolean
+  openPlacement?: Placement
+}>(), {
+
+})
 const emit = defineEmits(['click'])
 defineSlots<{
-  default: () => any
+  default: (props: {
+    close: () => void
+  }) => any
   left: () => any
+  main: () => any
   right: () => any
-  icon: () => any
-  label: () => any
-  caption: () => any
 }>()
+const el = ref() as Ref<HTMLElement>
+const slots = useSlots()
+const open = ref<null | InstanceType<typeof import('./Open.vue').default>>(null)
+const selected = ref(false)
 function onClick(e: Event) {
   emit('click', e)
+  if (slots.default)
+    open.value?.open()
 }
-const _icon = computed(() => {
-  if (!icon)
+const icon = computed(() => {
+  if (!props.icon)
     return null
-  const [name, ..._class] = icon.split(' ')
+  const [name, ..._class] = props.icon.split(' ')
   return { name, class: _class }
 })
+function close() {
+  open.value?.close()
+}
 </script>
 
 <template>
   <div
     class="min-h-11 overflow-hidden desktop:min-h-10"
     color="default"
-    :class="{ clickable: (clickable || next) }"
+    :class="{ clickable: (clickable || slots.default), selected }"
+    v-bind="$attrs"
     @click="onClick"
   >
-    <slot v-if="$slots.default" />
     <div
-      v-else
+      ref="el"
       class="min-h-11 flex items-center gap-3 px-3 py-3 desktop:min-h-10 desktop:py-2"
     >
-      <slot name="left" />
-
-      <!-- Icon -->
-      <div v-if="icon || $slots.icon" class="h-6 w-6 flex items-center justify-center rounded desktop:(h-5 w-5)">
-        <Icon v-if="_icon" :name="_icon.name" :class="_icon.class" rounded p-2px size="24" />
-        <slot name="icon" />
+      <slot v-if="$slots.left" name="left" />
+      <div v-else-if="$props.icon" class="h-6 w-6 flex items-center justify-center rounded desktop:(h-5 w-5)">
+        <Icon v-if="icon" :name="icon.name" :class="icon.class" rounded p-2px size="24" />
       </div>
-
-      <!-- Label -->
-      <div class="flex-1 flex-basis-2xl flex-nowrap overflow-hidden text-base desktop:text-sm">
-        <slot v-if="$slots.label" name="label" />
-        <div v-else-if="label" class="truncate">
+      <div v-if="$slots.main" class="flex-1">
+        <slot name="main" />
+      </div>
+      <div v-else-if="$props.label" class="flex-1 flex-basis-2xl flex-nowrap overflow-hidden text-base desktop:text-sm">
+        <div class="truncate">
           {{ label }}
         </div>
       </div>
 
-      <!-- Caption -->
-      <div v-if="$slots.caption || caption" class="flex-1 truncate text-right text-sm desktop:text-xs text-faint">
-        <slot v-if="$slots.caption" name="caption" />
-        <span v-else>
+      <slot v-if="$slots.right" name="right" />
+      <div v-else-if="$props.caption" class="flex-1 truncate text-right text-sm desktop:text-xs text-faint">
+        <span>
           {{ caption }}
         </span>
       </div>
 
-      <slot name="right" />
-
-      <!-- Next/down -->
       <Icon
-        v-if="next"
+        v-if="$slots.default"
         name="fluent:chevron-right-16-filled" size="18"
-        class="ml--3 mr--1 transition-color text-faint"
-      />
-      <Icon
-        v-else-if="down"
-        name="fluent:chevron-down-16-filled" size="18"
         class="ml--3 mr--1 transition-color text-faint"
       />
     </div>
   </div>
+  <Open
+    v-if="$slots.default && el"
+    ref="open"
+    v-model="selected"
+    :label="$props.label ?? $props.openLabel"
+    :target="$props.open"
+    :header="$props.openHeader"
+    :parent="el"
+    :placement="$props.openPlacement"
+  >
+    <slot :close />
+  </Open>
 </template>

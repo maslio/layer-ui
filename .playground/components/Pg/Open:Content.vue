@@ -18,15 +18,12 @@ if (error) {
 </script>
 
 <template>
-  <List label="Label">
+  <Card label="Label">
     <Item label="Hello 1" />
     <Item label="Hello 2" />
-    <Open label="Next">
-      <Item label="Next" next />
-      <template #target>
-        <PgOpen:Content @close="emit('close')" />
-      </template>
-    </Open>
-  </List>
-  <Button label="Close" color="primary" @click="emit('close', $event)" />
+    <Item label="Next">
+      <PgOpen:Content @close="emit('close')" />
+    </Item>
+  </Card>
+  <Button label="Close" color="positive" @click="emit('close', $event)" />
 </template>

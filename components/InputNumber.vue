@@ -54,7 +54,7 @@ const dataMaska = computed(() => {
 </script>
 
 <template>
-  <Item :label @click="input.select()">
+  <Input :label @click="input.select()">
     <template #right>
       <div class="flex-1">
         <input
@@ -71,7 +71,7 @@ const dataMaska = computed(() => {
         >
       </div>
     </template>
-  </Item>
+  </Input>
 </template>
 
 <style scoped>

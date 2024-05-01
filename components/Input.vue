@@ -1,28 +1,39 @@
 <script setup lang="ts">
-const { focused, readonly } = defineProps<{
+defineProps<{
   label?: string
-  type?: string
   icon?: string
   focused?: boolean
   readonly?: boolean
+  flat?: boolean
 }>()
-const isLabelBright = computed(() => focused && !readonly)
+const emit = defineEmits(['click'])
+
+defineSlots<{
+  default: () => any
+  left: () => any
+  main: () => any
+  right: () => any
+}>()
 </script>
 
 <template>
-  <Item>
-    <div class="w-full flex items-center">
-      <div v-if="icon" ml-3>
-        <Icon :name="icon" />
+  <Item :icon :class="{ focused: (focused && !readonly) }" @click="emit('click', $event)">
+    <template #main>
+      <div v-if="label">
+        {{ label }}
       </div>
-      <div flex flex-1 flex-col px-3 py-2>
-        <label
-          v-if="label"
-          class="block select-none text-sm transition-color-100"
-          :class="isLabelBright ? 'text-bright' : 'text-faint'"
-        >{{ label }}</label>
-        <slot />
+      <div
+        v-if="$slots.default"
+        class="border-b-1 transition-200"
+        light="border-b-neutral-200 focused:border-b-neutral-300 text-neutral-700"
+        dark="border-b-dark-200 focused:border-b-neutral-400 text-neutral-300"
+        :class="{ 'border-none!': flat }"
+      >
+        <slot name="default" />
       </div>
-    </div>
+    </template>
+    <template v-if="$slots.right" #right>
+      <slot name="right" />
+    </template>
   </Item>
 </template>

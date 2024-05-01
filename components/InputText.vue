@@ -6,7 +6,7 @@ defineProps<{
 }>()
 const emit = defineEmits(['focus', 'blur'])
 const model = defineModel<string>()
-const input = ref()
+const input = ref() as Ref<HTMLTextAreaElement>
 const { focused } = useFocus(input)
 watch(focused, (value) => {
   if (value)
@@ -16,7 +16,7 @@ watch(focused, (value) => {
 })
 function resize() {
   const target = input.value
-  target.style.height = '28px'
+  target.style.height = '20px'
   target.style.height = `${target.scrollHeight}px`
 }
 onMounted(() => resize())
