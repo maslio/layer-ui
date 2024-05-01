@@ -40,7 +40,7 @@ import Content from './Open:Content.vue'
     <Item v-slot="{ close }" open="float" label="Error">
       <Content error @close="close" />
     </Item>
-    <Item v-slot="{ close }" open="float" label="Float with header">
+    <Item v-slot="{ close }" open="float" label="Float with header" open-header>
       <Content @close="close" />
     </Item>
   </Card>

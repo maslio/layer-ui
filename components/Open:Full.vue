@@ -33,8 +33,10 @@ onErrorCaptured((e: Error) => {
 <template>
   <Teleport to="body">
     <Transition
-      enter-from-class="bg-transparent children:translate-y--40px children:opacity-0"
-      enter-active-class="transition-150 children:transition-200"
+      enter-from-class="bg-transparent children:translate-x-100px children:opacity-0"
+      enter-active-class="transition-300 children:transition-200"
+      leave-active-class="transition-300 children:transition-200"
+      leave-to-class="bg-transparent children:translate-x-100px children:opacity-0"
     >
       <div
         v-if="selected"
