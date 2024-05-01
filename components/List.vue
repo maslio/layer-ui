@@ -172,7 +172,7 @@ await fetch()
         <Separator />
         <div :class="{ focused: (focus.active && items.length === focus.index) }">
           <Item clickable @click="increaseLimit">
-            <template #label>
+            <template #main>
               <div text-center>
                 Show {{ hasMore }} more
               </div>

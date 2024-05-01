@@ -25,5 +25,10 @@
     <Card>
       <PgColorMode />
     </Card>
+    <Card>
+      <Item label="Recursive" open="modal">
+        <Recursive />
+      </Item>
+    </Card>
   </Layout>
 </template>

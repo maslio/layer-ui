@@ -5,6 +5,7 @@ const props = withDefaults(defineProps<{
   icon?: string
   label?: string
   caption?: string | number
+  value?: string | number
   clickable?: boolean
   open?: 'next' | 'modal' | 'float' | 'full'
   openLabel?: string
@@ -59,19 +60,20 @@ function close() {
         <Icon v-if="icon" :name="icon.name" :class="icon.class" rounded p-2px size="24" />
       </div>
       <div v-if="$slots.main" class="flex-1">
-        <slot name="main" />
+        <slot v-if="$slots.main" name="main" />
       </div>
-      <div v-else-if="$props.label" class="flex-1 flex-basis-2xl flex-nowrap overflow-hidden text-base desktop:text-sm">
-        <div class="truncate">
+      <div v-else class="flex-1 flex-basis-2xl flex-nowrap overflow-hidden">
+        <div v-if="$props.label" class="truncate text-sm">
           {{ label }}
+        </div>
+        <div v-if="$props.caption" class="truncate text-xs text-faint">
+          {{ caption }}
         </div>
       </div>
 
       <slot v-if="$slots.right" name="right" />
-      <div v-else-if="$props.caption" class="flex-1 truncate text-right text-sm desktop:text-xs text-faint">
-        <span>
-          {{ caption }}
-        </span>
+      <div v-else-if="$props.value" class="max-w-50% truncate text-right text-sm text-faint">
+        {{ value }}
       </div>
 
       <Icon

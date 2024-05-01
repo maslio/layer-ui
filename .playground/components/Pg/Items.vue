@@ -11,6 +11,8 @@ const longString = 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iu
     <Item :label="shortString" :caption="longString" />
     <Item :label="longString" :caption="shortString" />
     <Item :label="longString" :caption="longString" />
+    <Item :label="longString" :caption="shortString" :value="shortString" />
+    <Item :label="longString" :caption="longString" :value="longString" />
   </Card>
   <Card>
     <template #label>

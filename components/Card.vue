@@ -11,11 +11,12 @@ defineSlots<{
 
 <template>
   <div class="my-3 embeded:my-0 first:mt-none">
-    <div v-if="$slots.label" class="label">
-      <slot name="label" />
-    </div>
-    <div v-else-if="label" class="label">
-      {{ label }}
+    <div
+      v-if="$slots.label || label"
+      class="mb-1 truncate px-3 text-base font-300 first:mt-0 text-faint"
+    >
+      <slot v-if="$slots.label" name="label" />
+      <span v-else>{{ label }}</span>
     </div>
     <div class="card overflow-hidden rounded-xl embeded:rounded-none" color="default">
       <slot />

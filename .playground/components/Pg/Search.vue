@@ -52,7 +52,7 @@ async function items(input: string, limit: number) {
         <InputString label="Website" :model-value="user.website" />
       </Card>
       <Card>
-        <Item label="Address" :caption="`${user.address.city}, ${user.address.street}`">
+        <Item label="Address" :value="`${user.address.city}, ${user.address.street}`">
           <Card>
             <InputString label="Street" :model-value="user.address.street" />
             <InputString label="Suite" :model-value="user.address.suite" />
@@ -63,7 +63,7 @@ async function items(input: string, limit: number) {
             <Item label="Location" :caption="`${user.address.geo.lat}, ${user.address.geo.lng}`" />
           </Card>
         </Item>
-        <Item label="Company" :caption="user.company.name">
+        <Item label="Company" :value="user.company.name">
           <Card>
             <InputString label="Name" :model-value="user.company.name" />
             <InputString label="Catch Phrase" :model-value="user.company.catchPhrase" />
