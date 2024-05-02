@@ -1,9 +1,9 @@
 <script setup lang="ts" generic="T">
-interface Item {
-  key: string | number
-  item: T
-}
-type Items = Item[] | { total: number, items: Item[] }
+// interface Item {
+//   key: string | number
+//   item: T
+// }
+type Items = T[] | { total: number, items: T[] }
 type ItemsFn = (input: string, limit: number, items: T[]) => Items | Promise<Items>
 
 const props = withDefaults(defineProps<{
@@ -11,6 +11,7 @@ const props = withDefaults(defineProps<{
   caption?: string
   total?: boolean
   items?: Items | ItemsFn
+  keys: string & keyof T
   limit?: number
   limitIncrement?: number
   input?: boolean
@@ -39,7 +40,7 @@ watch(() => props.inputValue, (value) => {
 
 const list = ref<HTMLDivElement>()
 const limit = ref(props.limit)
-const items = ref<Item[]>([]) as Ref<Item[]>
+const items = ref<T[]>([]) as Ref<T[]>
 const total = ref<number>(0)
 const pending = ref(false)
 
@@ -59,7 +60,7 @@ async function fetch(_limit = props.limit) {
   pending.value = true
   if (props.items) {
     if (typeof props.items === 'function') {
-      const data = await props.items(input.value, limit.value, items.value.map(i => i.item))
+      const data = await props.items(input.value, limit.value, items.value)
       setItems(data)
     }
     else { setItems(props.items) }
@@ -162,11 +163,11 @@ await fetch()
         <Separator />
       </template>
       <div
-        v-for="(one, index) in items"
-        :key="one.key"
+        v-for="(item, index) in items"
+        :key="item[props.keys] as string"
         :class="{ focused: (focus.active && index === focus.index) }"
       >
-        <slot :item="one.item" :index />
+        <slot :item="item" :index />
       </div>
       <template v-if="hasMore">
         <Separator />

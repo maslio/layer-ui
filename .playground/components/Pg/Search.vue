@@ -31,16 +31,13 @@ async function items(input: string, limit: number) {
   }
   return {
     total: users.length,
-    items: users.slice(0, limit).map(user => ({
-      key: user.id,
-      item: user,
-    })),
+    items: users.slice(0, limit),
   }
 }
 </script>
 
 <template>
-  <List v-slot="{ item: user }" :items="items" total input>
+  <List v-slot="{ item: user }" :items="items" keys="id" total input>
     <Item :label="user.name" :caption="user.company.name">
       <Card>
         <InputString label="Name" :model-value="user.name" />
