@@ -42,18 +42,15 @@ const closeIcon = computed(() => {
 <template>
   <div
     ref="root"
-    class="layout absolute h-full w-full flex justify-center overflow-hidden transition-none"
+    class="layout absolute h-full w-full flex justify-center overflow-hidden"
     color="back embeded:default"
     min-w-250px
     embeded:relative embeded:h-auto embeded:w-auto
     :class="{ mobile }"
   >
-    <div class="left" h-full flex flex-col :style="styleRoot">
+    <div class="left shifted" h-full flex flex-col :style="styleRoot">
       <header v-if="!noHeader" class="group header h-14 flex items-center gap-2 p-3 desktop:h-14 embeded:p-2">
         <Button v-if="hasParent" flat mini :icon="closeIcon" @click="close" />
-        <!-- <button v-if="hasParent" w-10 rounded opacity-50 hover="opacity-90" @click="close">
-          <Icon :name="closeIcon" />
-        </button> -->
         <div v-else w-1 />
         <div flex-1 truncate pr-3 text-base>
           {{ label }}
@@ -75,6 +72,11 @@ const closeIcon = computed(() => {
 </template>
 
 <style scoped>
+.layout:has(+ .layout:not(.v-leave-active)) {
+  > .left {
+    transform: translateX(-50%);
+  }
+}
 .layout > .next {
   --uno: relative flex-1;
 }

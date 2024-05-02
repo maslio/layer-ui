@@ -32,9 +32,15 @@ onErrorCaptured((e: Error) => {
   <Teleport v-if="target" :to="target">
     <Transition
       enter-from-class="translate-x-0!"
+      enter-active-class="mobile:transition-300"
+      leave-active-class="mobile:transition-300 v-leave-active"
       leave-to-class="translate-x-0!"
     >
-      <Layout v-if="isOpened" :width="width" :label @close="close">
+      <Layout
+        v-if="isOpened" :width="width" :label
+        class="mobile:translate-x--100%"
+        @close="close"
+      >
         <Open:Error v-if="error" :error @close="close" />
         <Suspense v-else @resolve="loading = false" @pending="loading = true">
           <slot />
