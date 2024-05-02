@@ -9,8 +9,8 @@ const props = withDefaults(defineProps<{
   color?: 'default' | 'primary' | 'positive' | 'negative' | 'contrast'
   icon?: string
   action?: () => Promise<() => void> | Promise<void>
+  actionDelay?: number
   disabled?: boolean
-  delay?: number
   mini?: boolean
   flat?: boolean
   open?: 'next' | 'modal' | 'float' | 'full'
@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<{
   openHeader?: boolean
 }>(), {
   color: 'default',
-  delay: 500,
+  actionDelay: 500,
   open: 'float',
 })
 const emit = defineEmits(['click'])
@@ -42,7 +42,7 @@ async function onClick(e: Event) {
   if (props.action == null)
     return
   pending.value = true
-  const result = await delay(props.delay, { value: props.action() })
+  const result = await delay(props.actionDelay, { value: props.action() })
   pending.value = false
   if (typeof result === 'function')
     result()

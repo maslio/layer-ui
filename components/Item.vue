@@ -53,7 +53,7 @@ function close() {
   >
     <div
       ref="el"
-      class="min-h-11 flex items-center gap-3 px-3 py-3 desktop:min-h-10 desktop:py-2"
+      class="relative min-h-11 flex items-center gap-3 px-3 py-3 desktop:min-h-10 desktop:py-2"
     >
       <slot v-if="$slots.left" name="left" />
       <div v-else-if="$props.icon" class="h-6 w-6 flex items-center justify-center rounded desktop:(h-5 w-5)">
