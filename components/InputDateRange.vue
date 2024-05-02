@@ -64,7 +64,7 @@ const presetsDay = presets.filter(p => p.type === 'day')
 const presetsWeek = presets.filter(p => p.type === 'week')
 const presetsMonth = presets.filter(p => p.type === 'month')
 
-const caption = computed(() => {
+const value = computed(() => {
   const preset = presets.find(p => p.value === modelString.value)
   if (preset)
     return preset.label
@@ -77,7 +77,7 @@ const caption = computed(() => {
 </script>
 
 <template>
-  <Item :label :caption>
+  <Item :label :value>
     <template v-if="!readonly" #default>
       <Card>
         <div px-3 py-2>

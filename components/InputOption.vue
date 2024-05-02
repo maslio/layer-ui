@@ -22,13 +22,13 @@ function toggle() {
 
 <template>
   <Item :label :clickable="!readonly" :caption @click="toggle">
-    <template #icon>
+    <template #left>
       <InputOption:Dot :active />
     </template>
     <template v-if="$slots.default" #default>
       <slot :active />
     </template>
-    <template v-if="$slots.label" #label>
+    <template v-if="$slots.main" #label>
       <slot name="label" />
     </template>
   </Item>

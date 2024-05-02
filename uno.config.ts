@@ -45,8 +45,8 @@ export default defineConfig({
       light:(bg-purple-600 text-light clickable:bg-purple-500)
     `,
     'color-positive': `
-      dark:(bg-emerald-500 text-gray-900)
-      light:(bg-emerald-400 text-gray-900)
+      dark:(bg-emerald-500 clickable:bg-emerald-600 text-gray-900)
+      light:(bg-emerald-400 clickable:bg-emerald-500 text-gray-900)
     `,
     'color-neutral': `
       dark:(bg-dark-100 text-light)

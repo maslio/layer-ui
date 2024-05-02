@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<{
   delay?: number
   mini?: boolean
   flat?: boolean
-  open?: 'next' | 'modal' | 'float' | 'fullscreen'
+  open?: 'next' | 'modal' | 'float' | 'full'
   openLabel?: string
   openHeader?: boolean
 }>(), {
@@ -51,8 +51,8 @@ async function onClick(e: Event) {
 
 <template>
   <div
-    class="embeded:my-0 embeded:px-2"
-    :class="{ 'my-3 w-full': !mini }"
+    class="embeded:my-0"
+    :class="{ 'my-3 w-full embeded:px-2': !mini }"
   >
     <button
       ref="el"

@@ -49,15 +49,16 @@ const closeIcon = computed(() => {
     :class="{ mobile }"
   >
     <div class="left" h-full flex flex-col :style="styleRoot">
-      <header v-if="!noHeader" class="group header h-14 flex items-center gap-2 p-2 desktop:h-14">
-        <button v-if="hasParent" w-10 rounded opacity-50 hover="opacity-90" @click="close">
+      <header v-if="!noHeader" class="group header h-14 flex items-center gap-2 p-3 desktop:h-14 embeded:p-2">
+        <Button v-if="hasParent" flat mini :icon="closeIcon" @click="close" />
+        <!-- <button v-if="hasParent" w-10 rounded opacity-50 hover="opacity-90" @click="close">
           <Icon :name="closeIcon" />
-        </button>
-        <div v-else w-2 />
+        </button> -->
+        <div v-else w-1 />
         <div flex-1 truncate pr-3 text-base>
           {{ label }}
         </div>
-        <div ref="buttons" h-10 flex flex-nowrap items-center pr-1 />
+        <div ref="buttons" h-10 flex flex-nowrap items-center />
       </header>
       <main
         class="relative flex-1 overflow-x-hidden overflow-y-auto pb-6 pl-3 pr-2 embeded:px-0 embeded:pb-2 embeded:first:pt-2"

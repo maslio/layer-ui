@@ -13,7 +13,7 @@ function onCalendarSelect(value: string) {
 }
 const presets = presetsPoint()
 
-const caption = computed(() => {
+const value = computed(() => {
   const preset = presets.find(p => p.value.format('YYYY-MM-DD') === model.value)
   if (preset)
     return preset.label
@@ -22,7 +22,7 @@ const caption = computed(() => {
 </script>
 
 <template>
-  <Item :label :caption>
+  <Item :label :value>
     <template v-if="!readonly" #default>
       <Card>
         <div class="px-3 py-2 text-center">
