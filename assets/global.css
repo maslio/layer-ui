@@ -5,3 +5,6 @@
 .desktop {
   --uno: text-sm;
 }
+body {
+  --uno: color-back;
+}

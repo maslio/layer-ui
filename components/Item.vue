@@ -23,6 +23,8 @@ defineSlots<{
   main: () => any
   right: () => any
 }>()
+
+const id = (process.dev ? props.label : null) ?? String(getCurrentInstance()?.uid)
 const el = ref() as Ref<HTMLElement>
 const slots = useSlots()
 const open = ref<null | InstanceType<typeof import('./Open.vue').default>>(null)
@@ -85,6 +87,7 @@ function close() {
   </div>
   <Open
     v-if="$slots.default && el"
+    :id
     ref="open"
     v-model="selected"
     :label="$props.label ?? $props.openLabel"

@@ -7,6 +7,7 @@ import OpenFull from './Open:Full.vue'
 
 type Target = 'next' | 'float' | 'modal' | 'full'
 const props = withDefaults(defineProps<{
+  id?: string
   label?: string
   width?: string | number
   target?: Target
@@ -50,6 +51,7 @@ defineExpose({ open, close })
 <template>
   <Component
     :is="component"
+    :id
     ref="target"
     v-model="selected"
     :label

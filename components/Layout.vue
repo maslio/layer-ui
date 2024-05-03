@@ -1,61 +1,58 @@
 <script setup lang="ts">
+import type { LayoutProvide } from './Layout.d.ts'
+
 const props = withDefaults(defineProps<{
   width?: string | number
   label?: string
   noHeader?: boolean
   close?: () => void
+  closeIcon?: string
 }>(), {
   width: 320,
 })
 const widthNumber = useToNumber(props.width)
 const freeWidth = ref(widthNumber.value)
 const rootWidth = ref(widthNumber.value)
-
-const root = ref()
-const target = ref()
-const buttons = ref()
-const mobile = computed(() => {
+const itemEl = ref() as Ref<HTMLElement>
+const isMini = computed(() => {
   return rootWidth.value < 640
 })
-const { close, hasParent, isParentMobile } = defineLayout({ target, mobile, buttons, close: props.close })
 
-useResizeObserver(root, (entries) => {
+useResizeObserver(itemEl, (entries) => {
   const entry = entries[0]
   rootWidth.value = entry.contentRect.width
   freeWidth.value = entry.contentRect.width - widthNumber.value
 })
 
 const styleRoot = computed(() => {
-  if (mobile.value)
+  if (isMini.value)
     return { width: '100%' }
   return { width: `${props.width}px` }
 })
-const closeIcon = computed(() => {
-  if (props.close)
-    return 'close'
-  if (isParentMobile.value)
-    return 'back'
-  return 'close'
-})
+
+const menuEl = ref() as Ref<HTMLElement>
+const nextEl = ref() as Ref<HTMLElement>
+const nextId = ref()
+provide<LayoutProvide>('layout', { isMini, menuEl, nextEl, nextId })
 </script>
 
 <template>
   <div
-    ref="root"
+    ref="itemEl"
     class="layout absolute h-full w-full flex justify-center overflow-hidden"
     color="back embeded:default"
     min-w-250px
     embeded:relative embeded:h-auto embeded:w-auto
-    :class="{ mobile }"
+    :class="{ mobile: isMini }"
   >
     <div class="left shifted" h-full flex flex-col :style="styleRoot">
       <header v-if="!noHeader" class="group header h-14 flex items-center gap-2 p-3 desktop:h-14 embeded:p-2">
-        <Button v-if="hasParent" flat mini :icon="closeIcon" @click="close" />
+        <Button v-if="closeIcon" flat mini :icon="closeIcon" @click="close" />
         <div v-else w-1 />
         <div flex-1 truncate pr-3 text-base>
           {{ label }}
         </div>
-        <div ref="buttons" h-10 flex flex-nowrap items-center />
+        <div ref="menuEl" h-10 flex flex-nowrap items-center />
       </header>
       <main
         class="relative flex-1 overflow-x-hidden overflow-y-auto pb-6 pl-3 pr-2 embeded:px-0 embeded:pb-2 embeded:first:pt-2"
@@ -67,15 +64,19 @@ const closeIcon = computed(() => {
         <slot />
       </main>
     </div>
-    <div ref="target" class="next" />
+    <div ref="nextEl" class="next" />
   </div>
 </template>
 
 <style scoped>
+/* .layout {
+  --uno: transition-transform-300;
+} */
+.layout:has(+ .layout) {
+  --uno: transition-transform-300;
+}
 .layout:has(+ .layout:not(.v-leave-active)) {
-  > .left {
-    transform: translateX(-50%);
-  }
+  transform: translateX(-150px);
 }
 .layout > .next {
   --uno: relative flex-1;

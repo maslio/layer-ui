@@ -1,25 +1,31 @@
 <script setup lang="ts">
+import type { ComponentInternalInstance } from 'vue'
+import type { LayoutProvide } from './Layout.d.ts'
+
 defineOptions({
   inheritAttrs: false,
 })
-const { label, width } = defineProps<{
+const { label, width, id } = defineProps<{
   label?: string
   width?: number
+  id: string
 }>()
 const loading = ref(true)
 const error = ref<Error | null>(null)
-const { target, open, close, isOpened } = useCurrentLayout()
+const { nextId, nextEl, isMini } = inject('layout') as LayoutProvide
 const selected = defineModel<boolean>()
-syncRefs(isOpened, selected)
-defineExpose({
-  open() {
-    error.value = null
-    open(width)
-  },
-  close() {
-    close()
-  },
+const isOpened = computed(() => {
+  return nextId.value === id
 })
+syncRefs(isOpened, selected)
+function open() {
+  error.value = null
+  nextId.value = id
+}
+function close() {
+  nextId.value = null
+}
+defineExpose({ open, close })
 onErrorCaptured((e: Error) => {
   error.value = e
   loading.value = false
@@ -29,7 +35,7 @@ onErrorCaptured((e: Error) => {
 </script>
 
 <template>
-  <Teleport v-if="target" :to="target">
+  <Teleport v-if="nextEl" :to="nextEl">
     <Transition
       enter-from-class="translate-x-0!"
       enter-active-class="mobile:transition-300"
@@ -39,7 +45,8 @@ onErrorCaptured((e: Error) => {
       <Layout
         v-if="isOpened" :width="width" :label
         class="mobile:translate-x--100%"
-        @close="close"
+        :close
+        :close-icon="isMini ? 'back' : 'close'"
       >
         <Open:Error v-if="error" :error @close="close" />
         <Suspense v-else @resolve="loading = false" @pending="loading = true">

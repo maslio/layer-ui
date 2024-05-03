@@ -33,7 +33,14 @@ onErrorCaptured((e: Error) => {
       leave-active-class="transition-200 v-leave-active"
       leave-to-class="translate-x-100% desktop:translate-x-320px desktop:opacity-0"
     >
-      <Layout v-if="selected" :label :width :no-header="!label" :close>
+      <Layout
+        v-if="selected"
+        :label
+        :width
+        :no-header="!label"
+        :close
+        close-icon="back"
+      >
         <Open:Error v-if="error" :error @close="close" />
         <Suspense v-else @resolve="loading = false" @pending="loading = true">
           <slot />

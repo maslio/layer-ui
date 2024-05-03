@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Placement } from '@floating-ui/vue'
 import delay from 'delay'
 
 defineOptions({
@@ -16,12 +17,14 @@ const props = withDefaults(defineProps<{
   open?: 'next' | 'modal' | 'float' | 'full'
   openLabel?: string
   openHeader?: boolean
+  openPlacement?: Placement
 }>(), {
   color: 'default',
   actionDelay: 500,
   open: 'float',
 })
 const emit = defineEmits(['click'])
+const id = (process.dev ? props.label : null) ?? String(getCurrentInstance()?.uid)
 const el = ref() as Ref<HTMLElement>
 const open = ref<null | InstanceType<typeof import('./Open.vue').default>>(null)
 const slots = useSlots()
@@ -74,12 +77,14 @@ async function onClick(e: Event) {
     </button>
     <Open
       v-if="$slots.default"
+      :id
       ref="open"
       v-model="selected"
       :label="$props.label ?? $props.openLabel"
       :target="$props.open"
       :parent="el"
       :header="$props.openHeader"
+      :placement="$props.openPlacement"
     >
       <slot />
     </Open>

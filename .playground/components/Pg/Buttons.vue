@@ -9,7 +9,6 @@ async function action() {
 </script>
 
 <template>
-  <Label>Colors</Label>
   <Button label="Default" color="default" />
   <Button label="Contrast" color="contrast" />
   <Button label="Primary" color="primary" />
