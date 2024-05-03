@@ -108,10 +108,12 @@ provide<LayoutProvide>('layout', { isMini, menuEl, nextEl, nextId, footerEl })
 .mobile > .next:has(> .layout.v-leave-active) {
   --uno: absolute;
 }
+/*
 .mobile > .next > .layout {
   --uno: translate-x--100% transition-300;
 }
 .embeded .mobile > .next > .layout {
   --uno: translate-x--100% transition-200;
 }
+*/
 </style>

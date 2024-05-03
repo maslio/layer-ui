@@ -2,8 +2,8 @@
 const { loading, error } = defineProps<{
   loading?: boolean
   error?: boolean
+  close: () => any
 }>()
-const emit = defineEmits(['close'])
 if (loading) {
   await new Promise((resolve) => {
     setTimeout(resolve, 1000)
@@ -22,10 +22,8 @@ if (error) {
     <Item label="Hello 1" />
     <Item label="Hello 2" />
     <Item label="Next">
-      <PgOpen:Content @close="emit('close')" />
+      <PgOpen:Content :close />
     </Item>
   </Card>
-  <Footer>
-    <Button label="Close" color="positive" @click="emit('close', $event)" />
-  </Footer>
+  <Button label="Close" color="positive" @click="close" />
 </template>
