@@ -33,7 +33,8 @@ const styleRoot = computed(() => {
 const menuEl = ref() as Ref<HTMLElement>
 const nextEl = ref() as Ref<HTMLElement>
 const nextId = ref()
-provide<LayoutProvide>('layout', { isMini, menuEl, nextEl, nextId })
+const footerEl = ref() as Ref<HTMLElement>
+provide<LayoutProvide>('layout', { isMini, menuEl, nextEl, nextId, footerEl })
 </script>
 
 <template>
@@ -55,7 +56,7 @@ provide<LayoutProvide>('layout', { isMini, menuEl, nextEl, nextId })
         <div ref="menuEl" h-10 flex flex-nowrap items-center />
       </header>
       <main
-        class="relative flex-1 overflow-x-hidden overflow-y-auto pb-6 pl-3 pr-2 embeded:px-0 embeded:pb-2 embeded:first:pt-2"
+        class="relative flex-1 overflow-x-hidden overflow-y-auto pb-3 pl-3 pr-2 embeded:px-0 embeded:pb-0 embeded:first:pt-2"
         embeded:scrollbar-gutter-auto
         scrollbar="~ rounded w-4px gutter-stable"
         dark:scrollbar="track-color-dark-900 thumb-color-neutral-700/50"
@@ -63,6 +64,7 @@ provide<LayoutProvide>('layout', { isMini, menuEl, nextEl, nextId })
       >
         <slot />
       </main>
+      <div ref="footerEl" px-3 embeded:px-0 embeded:pb-2 />
     </div>
     <div ref="nextEl" class="next" />
   </div>

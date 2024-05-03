@@ -3,4 +3,5 @@ export interface LayoutProvide {
   menuEl: Ref<HTMLElement>
   nextEl: Ref<HTMLElement>
   nextId: Ref<any>
+  footerEl: Ref<HTMLElement>
 }

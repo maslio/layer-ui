@@ -25,5 +25,7 @@ if (error) {
       <PgOpen:Content @close="emit('close')" />
     </Item>
   </Card>
-  <Button label="Close" color="positive" @click="emit('close', $event)" />
+  <Footer>
+    <Button label="Close" color="positive" @click="emit('close', $event)" />
+  </Footer>
 </template>
