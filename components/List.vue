@@ -1,10 +1,11 @@
-<script setup lang="ts" generic="T">
-// interface Item {
-//   key: string | number
-//   item: T
-// }
+<script setup lang="ts" generic="T, Q">
 type Items = T[] | { total: number, items: T[] }
-type ItemsFn = (input: string, limit: number, items: T[]) => Items | Promise<Items>
+type ItemsFn = (props: {
+  input: string
+  limit: number
+  query: Q
+  items: T[]
+}) => Items | Promise<Items>
 
 const props = withDefaults(defineProps<{
   label?: string
@@ -19,6 +20,7 @@ const props = withDefaults(defineProps<{
   inputFocus?: boolean
   inputLabel?: string
   inputDebounce?: number
+  query: Q
 }>(), {
   limit: 5,
   inputLabel: 'Search',
@@ -31,7 +33,6 @@ defineSlots<{
   }) => any
   label: () => any
 }>()
-
 const input = defineModel<string>({ default: '' })
 watch(() => props.inputValue, (value) => {
   if (value != null)
@@ -60,7 +61,12 @@ async function fetch(_limit = props.limit) {
   pending.value = true
   if (props.items) {
     if (typeof props.items === 'function') {
-      const data = await props.items(input.value, limit.value, items.value)
+      const data = await props.items({
+        input: input.value,
+        limit: limit.value,
+        query: props.query,
+        items: items.value,
+      })
       setItems(data)
     }
     else { setItems(props.items) }

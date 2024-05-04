@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { sortBy } from 'lodash-es'
+
 interface User {
   id: number
   name: string
@@ -22,13 +24,20 @@ interface User {
     bs: string
   }
 }
+interface Query {
+  sort: string & keyof User
+}
 
-async function items(input: string, limit: number) {
+const query = reactive<Query>({
+  sort: 'id',
+})
+async function items({ input, limit, query }: { input: string, limit: number, query: Query }) {
   let users = await $fetch<User[]>('https://jsonplaceholder.typicode.com/users')
   if (input) {
     input = input.toLowerCase()
     users = users.filter(user => user.name.toLowerCase().includes(input))
   }
+  users = sortBy(users, query.sort)
   return {
     total: users.length,
     items: users.slice(0, limit),
@@ -37,7 +46,13 @@ async function items(input: string, limit: number) {
 </script>
 
 <template>
-  <List v-slot="{ item: user }" :items="items" keys="id" total input>
+  <Menu>
+    <Button flat mini icon="sort">
+      <InputOption v-model="query.sort" value="id" label="ID" />
+      <InputOption v-model="query.sort" value="name" label="Name" />
+    </Button>
+  </Menu>
+  <List v-slot="{ item: user }" :items="items" :query keys="id" total input>
     <Item :label="user.name" :caption="user.company.name">
       <Card>
         <InputString label="Name" :model-value="user.name" />
