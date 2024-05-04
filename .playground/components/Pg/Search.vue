@@ -54,7 +54,7 @@ async function items(input: string, limit: number) {
       <InputOption v-model="query.sort" value="name" label="Name" />
     </Button>
   </Menu>
-  <List v-slot="{ item: user }" :items="items" :query keys="id" total input input-enter>
+  <List v-slot="{ item: user }" :items="items" :query keys="id" total input>
     <Item :label="user.name" :caption="user.company.name">
       <Card>
         <InputString label="Name" :model-value="user.name" />

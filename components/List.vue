@@ -59,9 +59,9 @@ const data = (function () {
   }
 
   let fetchId: number = 0 // prevent outdated fetch results
-  async function fetch(_limit = props.limit) {
-    limit.value = _limit
-    pending.value = true
+  async function fetch(silent = false) {
+    if (!silent)
+      pending.value = true
     if (props.items) {
       if (typeof props.items === 'function') {
         const id = ++fetchId
@@ -90,7 +90,8 @@ const data = (function () {
   })
   async function increaseLimit() {
     focus.remember()
-    await fetch(limit.value + increment.value)
+    limit.value = limit.value + increment.value
+    await fetch()
     focus.restore()
   }
   watch(props, () => fetch())
