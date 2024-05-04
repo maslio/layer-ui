@@ -8,6 +8,7 @@ const props = withDefaults(defineProps<{
   value?: string | number
   clickable?: boolean
   open?: 'next' | 'modal' | 'float' | 'full'
+  href?: string
   noTruncate?: boolean
   openWidth?: string | number
   openLabel?: string
@@ -45,13 +46,16 @@ const icon = computed(() => {
 function close() {
   open.value?.close()
 }
+const tag = props.href ? 'a' : slots.default ? 'button' : 'div'
 </script>
 
 <template>
-  <div
-    class="min-h-11 overflow-hidden desktop:min-h-10"
+  <component
+    :is="tag"
+    class="block min-h-11 w-full overflow-hidden text-left desktop:min-h-10"
     color="default"
-    :class="{ clickable: (clickable || slots.default), selected }"
+    :class="{ clickable: (clickable || href || slots.default), selected }"
+    :href="href"
     v-bind="$attrs"
     @click="onClick"
   >
@@ -81,12 +85,17 @@ function close() {
       </div>
 
       <Icon
-        v-if="$slots.default"
+        v-if="href"
+        name="material-symbols-light:open-in-new-rounded" size="18"
+        class="ml--3 mr--1 transition-color text-faint"
+      />
+      <Icon
+        v-else-if="$slots.default"
         name="fluent:chevron-right-16-filled" size="18"
         class="ml--3 mr--1 transition-color text-faint"
       />
     </div>
-  </div>
+  </component>
   <Open
     v-if="$slots.default && el"
     :id

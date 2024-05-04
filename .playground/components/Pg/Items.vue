@@ -5,11 +5,7 @@ const longString = 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iu
 
 <template>
   <Card :label="longString">
-    <Item :label="shortString" />
-    <Item :label="longString" />
     <Item :label="shortString" :caption="shortString" />
-    <Item :label="shortString" :caption="longString" />
-    <Item :label="longString" :caption="shortString" />
     <Item :label="longString" :caption="longString" />
     <Item :label="longString" :caption="shortString" :value="shortString" />
     <Item :label="longString" :caption="longString" :value="longString" />
@@ -22,6 +18,7 @@ const longString = 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iu
     </template>
     <Item icon="mdi:emoticon-happy" label="Item with icon" />
     <Item icon="tabler:click" label="Clickable" clickable />
+    <Item icon="uit:google" label="Google.com" href="https://google.com" />
     <Item>
       <template #left>
         Left

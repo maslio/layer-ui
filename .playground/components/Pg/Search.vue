@@ -31,7 +31,7 @@ interface Query {
 const query = reactive<Query>({
   sort: 'id',
 })
-async function items({ input, limit, query }: { input: string, limit: number, query: Query }) {
+async function items(input: string, limit: number) {
   let users = await $fetch<User[]>('https://jsonplaceholder.typicode.com/users')
   if (input) {
     input = input.toLowerCase()
