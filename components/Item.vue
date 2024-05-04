@@ -8,6 +8,8 @@ const props = withDefaults(defineProps<{
   value?: string | number
   clickable?: boolean
   open?: 'next' | 'modal' | 'float' | 'full'
+  noTruncate?: boolean
+  openWidth?: string | number
   openLabel?: string
   openHeader?: boolean
   openPlacement?: Placement
@@ -65,10 +67,10 @@ function close() {
         <slot v-if="$slots.main" name="main" />
       </div>
       <div v-else class="flex-1 flex-basis-2xl flex-nowrap overflow-hidden">
-        <div v-if="$props.label" class="truncate text-sm">
+        <div v-if="$props.label" class="text-sm" :class="{ truncate: !noTruncate }">
           {{ label }}
         </div>
-        <div v-if="$props.caption" class="truncate text-xs text-faint">
+        <div v-if="$props.caption" class="text-xs text-faint" :class="{ truncate: !noTruncate }">
           {{ caption }}
         </div>
       </div>
@@ -91,6 +93,7 @@ function close() {
     ref="open"
     v-model="selected"
     :label="$props.label ?? $props.openLabel"
+    :width="$props.openWidth"
     :target="$props.open"
     :header="$props.openHeader"
     :parent="el"

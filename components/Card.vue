@@ -2,6 +2,7 @@
 defineProps<{
   label?: string
   caption?: string
+  class?: any
 }>()
 defineSlots<{
   default: () => any
@@ -18,7 +19,7 @@ defineSlots<{
       <slot v-if="$slots.label" name="label" />
       <span v-else>{{ label }}</span>
     </div>
-    <div class="card overflow-hidden rounded-xl embeded:rounded-none" color="default">
+    <div class="card overflow-hidden rounded-xl embeded:rounded-none" color="default" :class="$props.class">
       <slot />
     </div>
     <div v-if="caption" mb-3 mt-1 pl-3 text-sm font-300 text-faint>

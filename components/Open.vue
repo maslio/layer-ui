@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<{
   target?: Target
   mobile?: Target
   header?: boolean
-  parent: HTMLElement
+  parent?: HTMLElement
   placement?: Placement
 }>(), {
   target: 'next',
@@ -58,6 +58,7 @@ defineExpose({ open, close })
     :placement
     :decorator="parent"
     :header
+    :width="width ? Number(width) : undefined"
   >
     <slot />
   </Component>
