@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import delay from 'delay'
 import { sortBy } from 'lodash-es'
 
 interface User {
@@ -32,6 +33,7 @@ const query = reactive<Query>({
   sort: 'id',
 })
 async function items(input: string, limit: number) {
+  await delay(500)
   let users = await $fetch<User[]>('https://jsonplaceholder.typicode.com/users')
   if (input) {
     input = input.toLowerCase()
@@ -52,7 +54,7 @@ async function items(input: string, limit: number) {
       <InputOption v-model="query.sort" value="name" label="Name" />
     </Button>
   </Menu>
-  <List v-slot="{ item: user }" :items="items" :query keys="id" total input>
+  <List v-slot="{ item: user }" :items="items" :query keys="id" total input input-enter>
     <Item :label="user.name" :caption="user.company.name">
       <Card>
         <InputString label="Name" :model-value="user.name" />

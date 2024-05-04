@@ -58,13 +58,18 @@ const data = (function () {
     }
   }
 
+  let fetchId: number = 0 // prevent outdated fetch results
   async function fetch(_limit = props.limit) {
     limit.value = _limit
     pending.value = true
     if (props.items) {
       if (typeof props.items === 'function') {
+        const id = ++fetchId
         const data = await props.items(input.value, limit.value, items.value)
-        setItems(data)
+        if (id === fetchId)
+          setItems(data)
+        else
+          return
       }
       else { setItems(props.items) }
     }
@@ -164,14 +169,24 @@ await data.fetch()
         </InputString>
         <Separator />
       </template>
-      <div
-        v-for="(item, index) in data.items"
-        :key="item[props.keys] as string"
-        :class="{ focused: (focus.active && index === focus.index) }"
-        class="flex children:flex-1"
-      >
-        <slot :item="item" :index />
-      </div>
+      <template v-if="data.items.length">
+        <div
+          v-for="(item, index) in data.items"
+          :key="item[props.keys] as string"
+          :class="{ focused: (focus.active && index === focus.index) }"
+          class="flex children:flex-1"
+        >
+          <slot :item="item" :index />
+        </div>
+      </template>
+      <template v-else>
+        <div flex flex-col items-center justify-center p-3>
+          <Icon name="tabler:mood-empty" size="40" />
+          <div text-faint>
+            No data
+          </div>
+        </div>
+      </template>
       <template v-if="data.hasMore">
         <Separator />
         <div :class="{ focused: (focus.active && data.items.length === focus.index) }">
