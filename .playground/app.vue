@@ -10,7 +10,7 @@
       <Item label="Buttons" icon="mdi:button-pointer">
         <PgButtons />
       </Item>
-      <Item label="Search" icon="search" open="full">
+      <Item label="Search" icon="search">
         <PgSearch />
       </Item>
     </Card>

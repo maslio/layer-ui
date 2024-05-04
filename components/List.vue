@@ -1,4 +1,7 @@
+<!-- eslint-disable ts/no-use-before-define -->
 <script setup lang="ts" generic="T, Q">
+import { sumBy } from 'lodash-es'
+
 type Items = T[] | { total: number, items: T[] }
 type ItemsFn = (props: {
   input: string
@@ -30,9 +33,11 @@ defineSlots<{
   default: (props: {
     item: T
     index: number
+    selected?: Ref<boolean>
   }) => any
   label: () => any
 }>()
+
 const input = defineModel<string>({ default: '' })
 watch(() => props.inputValue, (value) => {
   if (value != null)
@@ -40,58 +45,69 @@ watch(() => props.inputValue, (value) => {
 }, { immediate: true })
 
 const list = ref<HTMLDivElement>()
-const limit = ref(props.limit)
-const items = ref<T[]>([]) as Ref<T[]>
-const total = ref<number>(0)
-const pending = ref(false)
 
-function setItems(data: Items) {
-  if (Array.isArray(data)) {
-    items.value = data
-    total.value = data.length
-  }
-  else {
-    items.value = data.items
-    total.value = data.total
-  }
-}
+const data = (function () {
+  const limit = ref(props.limit)
+  const items = ref<T[]>([]) as Ref<T[]>
+  const total = ref<number>(0)
+  const pending = ref(false)
 
-async function fetch(_limit = props.limit) {
-  limit.value = _limit
-  pending.value = true
-  if (props.items) {
-    if (typeof props.items === 'function') {
-      const data = await props.items({
-        input: input.value,
-        limit: limit.value,
-        query: props.query,
-        items: items.value,
-      })
-      setItems(data)
+  function setItems(data: Items) {
+    if (Array.isArray(data)) {
+      items.value = data
+      total.value = data.length
     }
-    else { setItems(props.items) }
+    else {
+      items.value = data.items
+      total.value = data.total
+    }
   }
-  pending.value = false
-}
 
-const increment = computed(() => props.limitIncrement ?? props.limit)
-const hasMore = computed<number>(() => {
-  if (!items.value.length)
-    return 0
-  if (total.value > items.value.length) {
-    const more = total.value - items.value.length
-    if (more > increment.value)
-      return increment.value
-    return more
+  async function fetch(_limit = props.limit) {
+    limit.value = _limit
+    pending.value = true
+    if (props.items) {
+      if (typeof props.items === 'function') {
+        const data = await props.items({
+          input: input.value,
+          limit: limit.value,
+          query: props.query,
+          items: items.value,
+        })
+        setItems(data)
+      }
+      else { setItems(props.items) }
+    }
+    pending.value = false
   }
-  return 0
-})
+
+  const increment = computed(() => props.limitIncrement ?? props.limit)
+  const hasMore = computed<number>(() => {
+    if (!items.value.length)
+      return 0
+    if (total.value > items.value.length) {
+      const more = total.value - items.value.length
+      if (more > increment.value)
+        return increment.value
+      return more
+    }
+    return 0
+  })
+  async function increaseLimit() {
+    focus.remember()
+    await fetch(limit.value + increment.value)
+    focus.restore()
+  }
+  watch(props, () => fetch())
+  watchDebounced(input, () => fetch(), { debounce: props.inputDebounce })
+  return toReactive({ input, items, total, pending, fetch, increment, hasMore, increaseLimit })
+})()
 
 const focus = (function () {
   const active = ref(false)
   const index = ref<number>(-1)
   function focus(i: number) {
-    if (items.value[i] || (hasMore.value && items.value.length === i))
+    if (data.items[i] || (data.hasMore && data.items.length === i))
       index.value = i
   }
   function next() {
@@ -130,18 +146,8 @@ const focus = (function () {
   return toReactive({ active, index, first, remember, restore })
 })()
 
-async function increaseLimit() {
-  focus.remember()
-  await fetch(limit.value + increment.value)
-  focus.restore()
-}
-
-watch(props, () => fetch())
-watchDebounced(input, () => fetch(), { debounce: props.inputDebounce })
-defineExpose({
-  fetch,
-})
-await fetch()
+defineExpose({ fetch: data.fetch })
+await data.fetch()
 </script>
 
 <template>
@@ -159,7 +165,7 @@ await fetch()
           @focus="focus.active = true"
           @blur="focus.active = false"
         >
-          <div v-if="pending">
+          <div v-if="data.pending">
             <Icon name="spinner" animate-spin />
           </div>
           <div v-else-if="input" flex items-center text-faint>
@@ -169,19 +175,20 @@ await fetch()
         <Separator />
       </template>
       <div
-        v-for="(item, index) in items"
+        v-for="(item, index) in data.items"
         :key="item[props.keys] as string"
         :class="{ focused: (focus.active && index === focus.index) }"
+        class="flex children:flex-1"
       >
         <slot :item="item" :index />
       </div>
-      <template v-if="hasMore">
+      <template v-if="data.hasMore">
         <Separator />
-        <div :class="{ focused: (focus.active && items.length === focus.index) }">
-          <Item clickable @click="increaseLimit">
+        <div :class="{ focused: (focus.active && data.items.length === focus.index) }">
+          <Item clickable @click="data.increaseLimit">
             <template #main>
               <div text-center>
-                Show {{ hasMore }} more
+                Show {{ data.hasMore }} more
               </div>
             </template>
           </Item>
@@ -190,27 +197,6 @@ await fetch()
     </div>
   </Card>
   <div v-if="props.total" m-2 text-center text-faint>
-    Total: {{ total }}
+    Total: {{ data.total }}
   </div>
 </template>
-
-<style>
-/* .label {
-  --uno: mb-1 truncate px-3 text-base font-300 first: mt-0 text-faint;
-}
-.list + .list {
-  --uno: mt-4;
-}
-.list + .buttons {
-  --uno: mt-4;
-}
-.list > *:not(.list):last-child hr {
-  display: none;
-}
-.list > .list {
-  --uno: rounded-none;
-}
-.list {
-  --uno: relative;
-}*/
-</style>
