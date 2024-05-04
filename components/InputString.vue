@@ -6,6 +6,9 @@ defineProps<{
   flat?: boolean
 }>()
 const emit = defineEmits(['focus', 'blur'])
+defineSlots<{
+  default: () => void
+}>()
 const input = ref() as Ref<HTMLInputElement>
 const model = defineModel<string>()
 const { focused } = useFocus(input)
@@ -26,5 +29,8 @@ function onClick() {
       ref="input" v-model="model" type="text" :placeholder :autofocus :readonly
       class="min-h-6 w-full flex-1 appearance-none bg-transparent outline-none"
     >
+    <template v-if="$slots.default" #right>
+      <slot />
+    </template>
   </Input>
 </template>
