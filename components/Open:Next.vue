@@ -39,7 +39,7 @@ onErrorCaptured((e: Error) => {
     <Transition
       enter-from-class="translate-x-0!"
       enter-active-class="mobile:transition-300"
-      leave-active-class="mobile:transition-300 v-leave-active"
+      leave-active-class="mobile:transition-250 v-leave-active"
       leave-to-class="translate-x-0!"
     >
       <Layout

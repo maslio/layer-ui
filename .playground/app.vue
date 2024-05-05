@@ -1,5 +1,11 @@
 <template>
   <Layout label="Ui components">
+    <Menu>
+      <Item label="Item in menu" clickable />
+      <Item label="Next">
+        <Item label="Hello" />
+      </Item>
+    </Menu>
     <Card>
       <Item label="Items" icon="material-symbols:lists-rounded">
         <PgItems />
@@ -15,9 +21,6 @@
       </Item>
     </Card>
     <Card>
-      <Item label="Layout buttons" icon="mdi:gesture-tap-button">
-        <PgLayoutButtons />
-      </Item>
       <Item label="Open" icon="material-symbols:open-in-new">
         <PgOpen />
       </Item>

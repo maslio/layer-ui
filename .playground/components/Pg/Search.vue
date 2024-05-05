@@ -48,11 +48,9 @@ async function items(input: string, limit: number) {
 </script>
 
 <template>
-  <Menu>
-    <Button flat mini icon="sort">
-      <InputOption v-model="query.sort" value="id" label="ID" />
-      <InputOption v-model="query.sort" value="name" label="Name" />
-    </Button>
+  <Menu label="Sort By">
+    <InputOption v-model="query.sort" value="id" label="ID" />
+    <InputOption v-model="query.sort" value="name" label="Name" />
   </Menu>
   <List v-slot="{ item: user }" :items="items" :query keys="id" total input>
     <Item :label="user.name" :caption="user.company.name">

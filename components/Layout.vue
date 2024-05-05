@@ -47,7 +47,10 @@ provide<LayoutProvide>('layout', { isMini, menuEl, nextEl, nextId, footerEl })
     :class="{ mobile: isMini }"
   >
     <div class="left shifted" h-full flex flex-col :style="styleRoot">
-      <header v-if="!noHeader" class="group header h-14 flex items-center gap-2 p-3 desktop:h-14 embeded:p-2">
+      <header
+        v-if="!noHeader"
+        class="group header h-14 flex items-center gap-2 p-3 embeded:h-12 embeded:p-2"
+      >
         <Button v-if="closeIcon" flat mini :icon="closeIcon" @click="close" />
         <div v-else w-1 />
         <div flex-1 truncate pr-3 text-base>
