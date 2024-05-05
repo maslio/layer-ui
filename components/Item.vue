@@ -31,11 +31,19 @@ const id = (process.dev ? props.label : null) ?? String(getCurrentInstance()?.ui
 const el = ref() as Ref<HTMLElement>
 const slots = useSlots()
 const open = ref<null | InstanceType<typeof import('./Open.vue').default>>(null)
+const hasOpen = slots.default != null
 const selected = ref(false)
-function onClick(e: Event) {
+const renderOpen = ref(false)
+
+async function onClick(e: Event) {
   emit('click', e)
-  if (slots.default)
+  if (hasOpen) {
+    if (!renderOpen.value) {
+      renderOpen.value = true
+      await nextTick()
+    }
     open.value?.open()
+  }
 }
 const icon = computed(() => {
   if (!props.icon)
@@ -97,7 +105,7 @@ const tag = props.href ? 'a' : slots.default ? 'button' : 'div'
     </div>
   </component>
   <Open
-    v-if="$slots.default && el"
+    v-if="renderOpen"
     :id
     ref="open"
     v-model="selected"
