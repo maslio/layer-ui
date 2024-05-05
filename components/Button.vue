@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Placement } from '@floating-ui/vue'
 import delay from 'delay'
+import type { Props as OpenProps, Target } from './Open.vue'
 
 defineOptions({
   inheritAttrs: false,
@@ -14,34 +15,56 @@ const props = withDefaults(defineProps<{
   disabled?: boolean
   mini?: boolean
   flat?: boolean
-  open?: 'next' | 'modal' | 'float' | 'full'
-  openLabel?: string
-  openHeader?: boolean
-  openPlacement?: Placement
+  open?: Target | OpenProps
 }>(), {
   color: 'default',
   actionDelay: 500,
   open: 'float',
 })
 const emit = defineEmits(['click'])
-const id = (process.dev ? props.label : null) ?? String(getCurrentInstance()?.uid)
+
 const el = ref() as Ref<HTMLElement>
-const open = ref<null | InstanceType<typeof import('./Open.vue').default>>(null)
 const slots = useSlots()
+
 const selected = ref(false)
+const hasOpen = slots.default != null
+const renderOpen = ref(false)
+const open = ref<null | InstanceType<typeof import('./Open.vue').default>>(null)
+function close() {
+  open.value?.close()
+}
+const openProps = computed(() => {
+  if (typeof props.open === 'string') {
+    return {
+      target: props.open,
+      label: props.label,
+    }
+  }
+  return {
+    target: props.open.target,
+    label: props.open.label ?? props.label,
+    width: props.open.width,
+    header: props.open.header,
+    placement: props.open.placement,
+  }
+})
+
 const pending = ref(false)
 const isDisabled = computed(() => props.disabled || pending.value)
 async function onClick(e: Event) {
   if (isDisabled.value)
     return
-  emit('click', e)
   e.stopPropagation()
   e.preventDefault()
-  if (slots.default) {
+  emit('click', e)
+  if (hasOpen) {
+    if (!renderOpen.value) {
+      renderOpen.value = true
+      await nextTick()
+    }
     open.value?.open()
     return
   }
-
   if (props.action == null)
     return
   pending.value = true
@@ -76,17 +99,13 @@ async function onClick(e: Event) {
       </div>
     </button>
     <Open
-      v-if="$slots.default"
-      :id
+      v-if="renderOpen"
       ref="open"
+      v-bind="openProps"
       v-model="selected"
-      :label="$props.label ?? $props.openLabel"
-      :target="$props.open"
       :parent="el"
-      :header="$props.openHeader"
-      :placement="$props.openPlacement"
     >
-      <slot />
+      <slot :close />
     </Open>
   </div>
 </template>

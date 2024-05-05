@@ -27,11 +27,11 @@ defineSlots<{
 
 const el = ref() as Ref<HTMLElement>
 const slots = useSlots()
-const open = ref<null | InstanceType<typeof import('./Open.vue').default>>(null)
-const hasOpen = slots.default != null
-const selected = ref(false)
-const renderOpen = ref(false)
 
+const selected = ref(false)
+const hasOpen = slots.default != null
+const renderOpen = ref(false)
+const open = ref<null | InstanceType<typeof import('./Open.vue').default>>(null)
 const openProps = computed(() => {
   if (typeof props.open === 'string') {
     return {
