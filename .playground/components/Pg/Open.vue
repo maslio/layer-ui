@@ -1,77 +1,44 @@
 <script setup lang="ts">
 import Content from './Open:Content.vue'
+
+const loading = ref(false)
+const error = ref(false)
+const header = ref(false)
+const placements = [
+  'bottom-end',
+  'bottom-start',
+  'top-end',
+  'top-start',
+] as const
+const placement = ref<typeof placements[number]>(placements[0])
 </script>
 
 <template>
-  <Card label="Next">
-    <Item v-slot="{ close }" label="Content">
-      <Content :close />
-    </Item>
-    <Item v-slot="{ close }" label="Loading">
-      <Content loading :close />
-    </Item>
-    <Item v-slot="{ close }" label="Error">
-      <Content error :close />
-    </Item>
-  </Card>
-
-  <Card label="Modal">
-    <Item v-slot="{ close }" open="modal" label="Content">
-      <Content :close />
-    </Item>
-    <Item v-slot="{ close }" open="modal" label="Loading">
-      <Content loading :close />
-    </Item>
-    <Item v-slot="{ close }" open="modal" label="Error">
-      <Content error :close />
-    </Item>
-    <Item v-slot="{ close }" open="modal" label="Modal with header" open-header>
-      <Content :close />
+  <Card>
+    <InputToggle v-model="loading" label="Loading" />
+    <InputToggle v-model="error" label="Error" />
+    <InputToggle v-model="header" label="Header" />
+    <Item label="Float placement" open="float">
+      <InputOption
+        v-for="p in placements" :key="p"
+        v-model="placement"
+        :value="p"
+        :label="p"
+      />
     </Item>
   </Card>
-
-  <Card label="Float">
-    <Item v-slot="{ close }" open="float" label="Content">
-      <Content :close />
+  <Card>
+    <Item v-slot="{ close }" label="Next">
+      <Content :loading :error :close />
     </Item>
-    <Item v-slot="{ close }" open="float" label="Loading">
-      <Content loading :close />
+    <Item v-slot="{ close }" open="modal" label="Modal" :open-header="header">
+      <Content :loading :error :close />
     </Item>
-    <Item v-slot="{ close }" open="float" label="Error">
-      <Content error :close />
+    <Item v-slot="{ close }" open="float" label="Float" :open-header="header" :open-placement="placement">
+      <Content :loading :error :close />
     </Item>
-    <Item v-slot="{ close }" open="float" label="Float with header" open-header>
-      <Content :close />
-    </Item>
-  </Card>
-
-  <Card label="Float placement">
-    <Item v-slot="{ close }" open="float" open-placement="bottom-end" label="bottom-end">
-      <Content :close />
-    </Item>
-    <Item v-slot="{ close }" open="float" open-placement="top-end" label="top-end">
-      <Content :close />
-    </Item>
-    <Item v-slot="{ close }" open="float" open-placement="top-start" label="top-start">
-      <Content :close />
-    </Item>
-    <Item v-slot="{ close }" open="float" open-placement="bottom-start" label="bottom-start">
-      <Content :close />
-    </Item>
-  </Card>
-
-  <Card label="Full">
-    <Item v-slot="{ close }" open="full" label="Content">
-      <Content :close />
-    </Item>
-    <Item v-slot="{ close }" open="full" label="Loading">
-      <Content loading :close />
-    </Item>
-    <Item v-slot="{ close }" open="full" label="Error">
-      <Content error :close />
-    </Item>
-    <Item v-slot="{ close }" open="full" label="Fullscreen with header">
-      <Content :close />
+    <Item v-slot="{ close }" open="full" label="Full" :open-header="header">
+      <Content :loading :error :close />
     </Item>
   </Card>
 </template>

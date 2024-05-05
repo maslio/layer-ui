@@ -4,15 +4,18 @@ import { type Placement, flip, offset, shift, useFloating } from '@floating-ui/v
 defineOptions({
   inheritAttrs: false,
 })
-const { label, width = 250, placement, decorator } = defineProps<{
+const props = withDefaults(defineProps<{
   label?: string
   width?: number
   header?: boolean
   placement: Placement
   decorator: HTMLElement
-}>()
+}>(), {
+  width: 250,
+})
 
-const _decorator = toRef(() => decorator)
+const decorator = toRef(() => props.decorator)
+const placement = toRef(() => props.placement)
 const selected = defineModel<boolean>()
 const loading = ref(true)
 const error = ref<Error | null>(null)
@@ -21,7 +24,7 @@ onClickOutside(target, (e) => {
   e.stopPropagation()
   close()
 })
-const { floatingStyles, update } = useFloating(_decorator, target, {
+const { floatingStyles, update } = useFloating(decorator, target, {
   placement,
   middleware: [offset(2), flip(), shift({ padding: 2 })],
 })
