@@ -11,6 +11,7 @@ const props = withDefaults(defineProps<{
   open?: Target | OpenProps
   href?: string
   noTruncate?: boolean
+  disabled?: boolean
 }>(), {
   open: 'next',
 })
@@ -48,6 +49,8 @@ const openProps = computed(() => {
 })
 
 async function onClick(e: Event) {
+  if (props.disabled)
+    return
   emit('click', e)
   if (hasOpen) {
     if (!renderOpen.value) {

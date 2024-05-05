@@ -22,7 +22,7 @@ const value = computed(() => {
 </script>
 
 <template>
-  <Item :label :value>
+  <Item :label :value :disabled="readonly">
     <template v-if="!readonly" #default>
       <Card>
         <div class="px-3 py-2 text-center">
