@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import type { LayoutProvide } from './Layout.d.ts'
+export interface LayoutProvide {
+  isMini: ComputedRef<boolean>
+  menuEl: Ref<HTMLElement>
+  nextEl: Ref<HTMLElement>
+  nextId: Ref<any>
+  footerEl: Ref<HTMLElement>
+}
 
 const props = withDefaults(defineProps<{
   width?: string | number

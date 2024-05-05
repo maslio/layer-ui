@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ComponentInternalInstance } from 'vue'
-import type { LayoutProvide } from './Layout.d.ts'
+import type { LayoutProvide } from './Layout.vue'
 
 defineOptions({
   inheritAttrs: false,
