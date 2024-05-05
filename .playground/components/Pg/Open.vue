@@ -31,13 +31,13 @@ const placement = ref<typeof placements[number]>(placements[0])
     <Item v-slot="{ close }" label="Next">
       <Content :loading :error :close />
     </Item>
-    <Item v-slot="{ close }" open="modal" label="Modal" :open-header="header">
+    <Item v-slot="{ close }" :open="{ target: 'modal', header }" label="Modal">
       <Content :loading :error :close />
     </Item>
-    <Item v-slot="{ close }" open="float" label="Float" :open-header="header" :open-placement="placement">
+    <Item v-slot="{ close }" :open="{ target: 'float', header, placement }" label="Float">
       <Content :loading :error :close />
     </Item>
-    <Item v-slot="{ close }" open="full" label="Full" :open-header="header">
+    <Item v-slot="{ close }" open="full" label="Full">
       <Content :loading :error :close />
     </Item>
   </Card>

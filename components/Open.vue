@@ -5,17 +5,17 @@ import OpenFloat from './Open:Float.vue'
 import OpenModal from './Open:Modal.vue'
 import OpenFull from './Open:Full.vue'
 
-type Target = 'next' | 'float' | 'modal' | 'full'
-const props = withDefaults(defineProps<{
-  id?: string
+export type Target = 'next' | 'float' | 'modal' | 'full'
+export interface Props {
   label?: string
-  width?: string | number
+  width?: number
   target?: Target
   mobile?: Target
   header?: boolean
   parent?: HTMLElement
   placement?: Placement
-}>(), {
+}
+const props = withDefaults(defineProps<Props>(), {
   target: 'next',
   placement: 'bottom-end',
 })
@@ -40,7 +40,7 @@ const component = computed(() => {
 const selected = defineModel<boolean>({ default: false })
 const target = ref()
 function open() {
-  target.value?.open()
+  target.value?.open(props)
 }
 function close() {
   target.value?.close()
@@ -51,14 +51,9 @@ defineExpose({ open, close })
 <template>
   <Component
     :is="component"
-    :id
     ref="target"
     v-model="selected"
-    :label
-    :placement
-    :decorator="parent"
-    :header
-    :width="width ? Number(width) : undefined"
+    v-bind="$props"
   >
     <slot />
   </Component>

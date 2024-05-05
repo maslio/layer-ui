@@ -9,12 +9,12 @@ const props = withDefaults(defineProps<{
   width?: number
   header?: boolean
   placement: Placement
-  decorator: HTMLElement
+  parent: HTMLElement
 }>(), {
   width: 250,
 })
 
-const decorator = toRef(() => props.decorator)
+const parent = toRef(() => props.parent)
 const placement = toRef(() => props.placement)
 const selected = defineModel<boolean>()
 const loading = ref(true)
@@ -24,7 +24,7 @@ onClickOutside(target, (e) => {
   e.stopPropagation()
   close()
 })
-const { floatingStyles, update } = useFloating(decorator, target, {
+const { floatingStyles, update } = useFloating(parent, target, {
   placement,
   middleware: [offset(2), flip(), shift({ padding: 2 })],
 })

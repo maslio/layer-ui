@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Placement } from '@floating-ui/vue'
+import type { Props as OpenProps, Target } from './Open.vue'
 
 const props = withDefaults(defineProps<{
   icon?: string
@@ -7,15 +8,11 @@ const props = withDefaults(defineProps<{
   caption?: string | number
   value?: string | number
   clickable?: boolean
-  open?: 'next' | 'modal' | 'float' | 'full'
+  open?: Target | OpenProps
   href?: string
   noTruncate?: boolean
-  openWidth?: string | number
-  openLabel?: string
-  openHeader?: boolean
-  openPlacement?: Placement
 }>(), {
-
+  open: 'next',
 })
 const emit = defineEmits(['click'])
 defineSlots<{
@@ -27,13 +24,28 @@ defineSlots<{
   right: () => any
 }>()
 
-const id = (process.dev ? props.label : null) ?? String(getCurrentInstance()?.uid)
 const el = ref() as Ref<HTMLElement>
 const slots = useSlots()
 const open = ref<null | InstanceType<typeof import('./Open.vue').default>>(null)
 const hasOpen = slots.default != null
 const selected = ref(false)
 const renderOpen = ref(false)
+
+const openProps = computed(() => {
+  if (typeof props.open === 'string') {
+    return {
+      target: props.open,
+      label: props.label,
+    }
+  }
+  return {
+    target: props.open.target,
+    label: props.open.label ?? props.label,
+    width: props.open.width,
+    header: props.open.header,
+    placement: props.open.placement,
+  }
+})
 
 async function onClick(e: Event) {
   emit('click', e)
@@ -54,7 +66,10 @@ const icon = computed(() => {
 function close() {
   open.value?.close()
 }
-const tag = props.href ? 'a' : slots.default ? 'button' : 'div'
+const tag = props.href ? 'a' : hasOpen ? 'button' : 'div'
+const clickable = computed(() => {
+  return props.clickable || props.href || hasOpen
+})
 </script>
 
 <template>
@@ -62,7 +77,7 @@ const tag = props.href ? 'a' : slots.default ? 'button' : 'div'
     :is="tag"
     class="block min-h-11 w-full overflow-hidden text-left desktop:min-h-10"
     color="default"
-    :class="{ clickable: (clickable || href || slots.default), selected }"
+    :class="{ clickable, selected }"
     :href="href"
     v-bind="$attrs"
     @click="onClick"
@@ -106,15 +121,10 @@ const tag = props.href ? 'a' : slots.default ? 'button' : 'div'
   </component>
   <Open
     v-if="renderOpen"
-    :id
     ref="open"
+    v-bind="openProps"
     v-model="selected"
-    :label="$props.label ?? $props.openLabel"
-    :width="$props.openWidth"
-    :target="$props.open"
-    :header="$props.openHeader"
     :parent="el"
-    :placement="$props.openPlacement"
   >
     <slot :close />
   </Open>

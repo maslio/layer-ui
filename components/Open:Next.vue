@@ -5,11 +5,11 @@ import type { LayoutProvide } from './Layout.vue'
 defineOptions({
   inheritAttrs: false,
 })
-const { label, width, id } = defineProps<{
+const { label, width } = defineProps<{
   label?: string
   width?: number
-  id: string
 }>()
+const id = (process.dev ? label : null) ?? String(getCurrentInstance()?.uid)
 const loading = ref(true)
 const error = ref<Error | null>(null)
 const { nextId, nextEl, isMini } = inject('layout') as LayoutProvide
