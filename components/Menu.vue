@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import type { LayoutProvide } from './Layout.vue'
-
 withDefaults(defineProps<{
   icon?: string
   label?: string
 }>(), {
   icon: 'more',
 })
-const { menuEl } = inject('layout') as LayoutProvide
+const { menuEl } = useLayout()
 </script>
 
 <template>

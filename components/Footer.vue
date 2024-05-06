@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import type { LayoutProvide } from './Layout.vue'
-
-const { footerEl } = inject('layout') as LayoutProvide
+const { footerEl } = useLayout()
 </script>
 
 <template>

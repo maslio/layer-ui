@@ -2,7 +2,6 @@
 const { loading, error } = defineProps<{
   loading?: boolean
   error?: boolean
-  close: () => any
 }>()
 if (loading) {
   await new Promise((resolve) => {
@@ -15,6 +14,8 @@ if (error) {
     setTimeout(() => { reject('Error') }, 1000)
   })
 }
+
+const { close } = useLayout()
 </script>
 
 <template>
@@ -22,7 +23,7 @@ if (error) {
     <Item label="Hello 1" />
     <Item label="Hello 2" />
     <Item label="Next">
-      <PgOpenContent :close />
+      <PgOpenContent />
     </Item>
   </Card>
   <Button label="Close" color="positive" @click="close" />

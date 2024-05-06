@@ -28,17 +28,17 @@ const placement = ref<typeof placements[number]>(placements[0])
     </Item>
   </Card>
   <Card>
-    <Item v-slot="{ close }" label="Next">
-      <Content :loading :error :close />
+    <Item label="Next">
+      <Content :loading :error />
     </Item>
-    <Item v-slot="{ close }" :open="{ target: 'modal', header }" label="Modal">
-      <Content :loading :error :close />
+    <Item :open="{ target: 'modal', header }" label="Modal">
+      <Content :loading :error />
     </Item>
-    <Item v-slot="{ close }" :open="{ target: 'float', header, placement }" label="Float">
-      <Content :loading :error :close />
+    <Item :open="{ target: 'float', header, placement }" label="Float">
+      <Content :loading :error />
     </Item>
-    <Item v-slot="{ close }" open="full" label="Full">
-      <Content :loading :error :close />
+    <Item open="full" label="Full">
+      <Content :loading :error />
     </Item>
   </Card>
   <Card>

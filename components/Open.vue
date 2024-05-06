@@ -58,7 +58,7 @@ defineExpose({ open, close })
     v-model="selected"
     v-bind="$props"
   >
-    <Component :is="component" v-if="component" :close v-bind="$props.props" />
+    <Component :is="component" v-if="component" v-bind="$props.props" />
     <slot v-else />
   </Component>
 </template>

@@ -1,12 +1,4 @@
 <script setup lang="ts">
-export interface LayoutProvide {
-  isMini: ComputedRef<boolean>
-  menuEl: Ref<HTMLElement>
-  nextEl: Ref<HTMLElement>
-  nextId: Ref<any>
-  footerEl: Ref<HTMLElement>
-}
-
 const props = withDefaults(defineProps<{
   width?: string | number
   label?: string
@@ -40,7 +32,12 @@ const menuEl = ref() as Ref<HTMLElement>
 const nextEl = ref() as Ref<HTMLElement>
 const nextId = ref()
 const footerEl = ref() as Ref<HTMLElement>
-provide<LayoutProvide>('layout', { isMini, menuEl, nextEl, nextId, footerEl })
+
+function close() {
+  props.close?.()
+}
+
+provide<LayoutProvide>('layout', { isMini, menuEl, nextEl, nextId, footerEl, close })
 </script>
 
 <template>

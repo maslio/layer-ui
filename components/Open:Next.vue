@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import type { ComponentInternalInstance } from 'vue'
-import type { LayoutProvide } from './Layout.vue'
-
 defineOptions({
   inheritAttrs: false,
 })
@@ -12,7 +9,7 @@ const { label, width } = defineProps<{
 const id = (process.dev ? label : null) ?? String(getCurrentInstance()?.uid)
 const loading = ref(true)
 const error = ref<Error | null>(null)
-const { nextId, nextEl, isMini } = inject('layout') as LayoutProvide
+const { nextId, nextEl, isMini } = useLayout()
 const selected = defineModel<boolean>()
 const isOpened = computed(() => {
   return nextId.value === id
