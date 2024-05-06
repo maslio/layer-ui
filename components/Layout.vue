@@ -28,6 +28,7 @@ const styleRoot = computed(() => {
   return { width: `${props.width}px` }
 })
 
+const pageEl = ref() as Ref<HTMLElement>
 const menuEl = ref() as Ref<HTMLElement>
 const nextEl = ref() as Ref<HTMLElement>
 const nextId = ref()
@@ -37,7 +38,7 @@ function close() {
   props.close?.()
 }
 
-provide<LayoutProvide>('layout', { isMini, menuEl, nextEl, nextId, footerEl, close })
+provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, footerEl, close })
 </script>
 
 <template>
@@ -49,7 +50,7 @@ provide<LayoutProvide>('layout', { isMini, menuEl, nextEl, nextId, footerEl, clo
     embeded:relative embeded:h-auto embeded:w-auto
     :class="{ mobile: isMini }"
   >
-    <div class="left shifted" h-full flex flex-col :style="styleRoot">
+    <div ref="pageEl" class="page relative" h-full flex flex-col :style="styleRoot">
       <header
         v-if="!noHeader"
         class="group header h-14 flex items-center gap-2 p-3 embeded:h-12 embeded:p-2"
@@ -89,19 +90,19 @@ provide<LayoutProvide>('layout', { isMini, menuEl, nextEl, nextId, footerEl, clo
 .layout > .next {
   --uno: relative flex-1;
 }
-.layout > .left {
+.layout > .page {
   --uno: transition-transform-300;
 }
-.embeded .layout > .left {
+.embeded .layout > .page {
   --uno: transition-transform-200;
 }
 .mobile:has(> .next > .layout.v-leave-active) {
-  > .left {
+  > .page {
     position: relative;
   }
 }
 .mobile:has(> .next > .layout:not(.v-leave-active)) {
-  > .left {
+  > .page {
     position: absolute;
     transform: translateX(-50%);
     height: 100%;

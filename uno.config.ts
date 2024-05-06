@@ -16,12 +16,14 @@ const selfVariants = ['selected']
 export default defineConfig({
   rules: [
     // these two lines are for removing warnings from console
+    ['w-max-content', { width: 'max-content' }],
     ['scrollbar-width-auto', {}],
     ['scrollbar-color-[var(--scrollbar-thumb)_var(--scrollbar-track)]', {}],
     ['scrollbar-gutter-auto', { 'scrollbar-gutter': 'auto' }],
     ['scrollbar-gutter-stable', { 'scrollbar-gutter': 'stable' }],
   ],
   shortcuts: {
+    'fit': 'absolute w-full h-full top-0 left-0',
     'text-bright': 'dark:text-light light:text-dark',
     'text-faint': 'dark:text-neutral-400 light:text-neutral-500',
     'text-primary': 'dark:text-purple-800 light:text-purple-600',
@@ -96,7 +98,7 @@ export default defineConfig({
         return matcher
       return {
         matcher: matcher.slice(10),
-        selector: s => `.desktop .clickable${s}:hover`,
+        selector: s => `.clickable${s}:hover`,
       }
     },
   ],
