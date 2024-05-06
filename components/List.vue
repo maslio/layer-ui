@@ -1,6 +1,7 @@
 <!-- eslint-disable ts/no-use-before-define -->
 <script setup lang="ts" generic="T">
 import { sumBy } from 'lodash-es'
+import type { DefineComponent } from 'vue'
 
 type Items = T[] | { total: number, items: T[] }
 type ItemsFn = (input: string, limit: number, items: T[]) => Items | Promise<Items>
@@ -19,6 +20,7 @@ const props = withDefaults(defineProps<{
   inputLabel?: string
   inputDebounce?: number
   query?: any
+  component: any
 }>(), {
   limit: 5,
   inputLabel: 'Search',
@@ -177,7 +179,8 @@ await data.fetch()
           :class="{ focused: (focus.active && index === focus.index) }"
           class="flex children:flex-1"
         >
-          <slot :item="item" :index />
+          <component :is="component" v-if="props.component" :item :index />
+          <slot v-else :item="item" :index />
         </div>
       </template>
       <template v-else>

@@ -22,7 +22,7 @@ if (error) {
     <Item label="Hello 1" />
     <Item label="Hello 2" />
     <Item label="Next">
-      <PgOpen:Content :close />
+      <PgOpenContent :close />
     </Item>
   </Card>
   <Button label="Close" color="positive" @click="close" />

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Component } from 'vue'
 import type { Placement } from '@floating-ui/vue'
 import OpenNext from './Open:Next.vue'
 import OpenFloat from './Open:Float.vue'
@@ -14,6 +15,8 @@ export interface Props {
   header?: boolean
   parent?: HTMLElement
   placement?: Placement
+  component?: Component
+  props?: Record<string, any>
 }
 const props = withDefaults(defineProps<Props>(), {
   target: 'next',
@@ -25,7 +28,7 @@ defineSlots<{
     close: () => void
   }) => any
 }>()
-const component = computed(() => {
+const is = computed(() => {
   const target = props.mobile ?? props.target
   if (target === 'next')
     return OpenNext
@@ -40,7 +43,7 @@ const component = computed(() => {
 const selected = defineModel<boolean>({ default: false })
 const target = ref()
 function open() {
-  target.value?.open(props)
+  target.value?.open()
 }
 function close() {
   target.value?.close()
@@ -50,11 +53,12 @@ defineExpose({ open, close })
 
 <template>
   <Component
-    :is="component"
+    :is
     ref="target"
     v-model="selected"
     v-bind="$props"
   >
-    <slot />
+    <Component :is="component" v-if="component" :close v-bind="$props.props" />
+    <slot v-else />
   </Component>
 </template>

@@ -29,7 +29,7 @@ const el = ref() as Ref<HTMLElement>
 const slots = useSlots()
 
 const selected = ref(false)
-const hasOpen = slots.default != null
+const hasOpen = slots.default != null || typeof props.open === 'object'
 const renderOpen = ref(false)
 const open = ref<null | InstanceType<typeof import('./Open.vue').default>>(null)
 const openProps = computed(() => {
@@ -45,6 +45,8 @@ const openProps = computed(() => {
     width: props.open.width,
     header: props.open.header,
     placement: props.open.placement,
+    component: props.open.component,
+    props: props.open.props,
   }
 })
 
@@ -116,7 +118,7 @@ const clickable = computed(() => {
         class="ml--3 mr--1 transition-color text-faint"
       />
       <Icon
-        v-else-if="$slots.default"
+        v-else-if="hasOpen"
         name="fluent:chevron-right-16-filled" size="18"
         class="ml--3 mr--1 transition-color text-faint"
       />

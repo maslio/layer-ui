@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Content from './Open:Content.vue'
+import Content from './OpenContent.vue'
 
 const loading = ref(false)
 const error = ref(false)
@@ -40,5 +40,11 @@ const placement = ref<typeof placements[number]>(placements[0])
     <Item v-slot="{ close }" open="full" label="Full">
       <Content :loading :error :close />
     </Item>
+  </Card>
+  <Card>
+    <Item
+      label="Component"
+      :open="{ component: Content, props: { error, loading } }"
+    />
   </Card>
 </template>
