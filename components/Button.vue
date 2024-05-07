@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Placement } from '@floating-ui/vue'
 import delay from 'delay'
+import { defu } from 'defu'
 import type { Props as OpenProps, Target } from './Open.vue'
 
 defineOptions({
@@ -34,7 +35,7 @@ const el = ref() as Ref<HTMLElement>
 const slots = useSlots()
 
 const selected = ref(false)
-const hasOpen = slots.default != null
+const hasOpen = slots.default != null || typeof props.open === 'object'
 const renderOpen = ref(false)
 const open = ref<null | InstanceType<typeof import('./Open.vue').default>>(null)
 function close() {
@@ -47,12 +48,15 @@ const openProps = computed(() => {
       label: props.label,
     }
   }
+  // return defu(props.open, {label: props.label})
   return {
     target: props.open.target,
     label: props.open.label ?? props.label,
     width: props.open.width,
     header: props.open.header,
     placement: props.open.placement,
+    component: props.open.component,
+    props: props.open.props,
   }
 })
 

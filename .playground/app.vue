@@ -28,8 +28,5 @@
     <Card>
       <PgColorMode />
     </Card>
-    <Footer>
-      <Button label="Button in footer" />
-    </Footer>
   </Layout>
 </template>

@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import type { Component } from 'vue'
-import type { Placement as DialogPlacement } from './OpenDialog.vue'
+import type { Placement as FloatPlacement } from './OpenFloat.vue'
 import type { Placement as ModalPlacement } from './OpenModal.vue'
 import OpenNext from './OpenNext.vue'
 import OpenModal from './OpenModal.vue'
+import OpenFloat from './OpenFloat.vue'
 import OpenFull from './OpenFull.vue'
 import OpenDialog from './OpenDialog.vue'
 
-export type Target = 'next' | 'modal' | 'full' | 'dialog'
+export type Target = 'next' | 'modal' | 'full' | 'dialog' | 'float'
 export interface Props {
   label?: string
   width?: number
@@ -15,7 +16,7 @@ export interface Props {
   mobile?: Target
   header?: boolean
   parent?: HTMLElement
-  placement?: DialogPlacement | ModalPlacement
+  placement?: FloatPlacement | ModalPlacement
   blur?: boolean
   component?: Component
   props?: Record<string, any>
@@ -36,6 +37,8 @@ const is = computed(() => {
     return OpenNext
   if (target === 'modal')
     return OpenModal
+  if (target === 'float')
+    return OpenFloat
   if (target === 'full')
     return OpenFull
   if (target === 'dialog')
