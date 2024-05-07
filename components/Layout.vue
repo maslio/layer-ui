@@ -58,7 +58,11 @@ provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, foote
         v-if="!noHeader"
         class="group header dialog:h-12 dialog:p-2 h-14 flex items-center gap-2 p-3"
       >
-        <Button v-if="closeIcon" flat mini :icon="closeIcon" @click="close" />
+        <Button
+          v-if="closeIcon" flat mini
+          :icon="closeIcon"
+          @click="close"
+        />
         <div v-else w-1 />
         <div flex-1 truncate pr-3 text-base>
           {{ label }}
@@ -66,16 +70,16 @@ provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, foote
         <div ref="menuEl" h-10 flex flex-nowrap items-center />
       </header>
       <main
-        class="dialog:px-0 dialog:pb-0 dialog:first:pt-2 relative flex-1 overflow-x-hidden overflow-y-auto pb-3 pl-3 pr-2"
+        class="dialog:px-0 dialog:pb-2 dialog:gap-0 dialog:first:pt-2 relative flex flex-1 flex-col gap-3 overflow-x-hidden overflow-y-auto p-3 pt-0"
         dialog:scrollbar-gutter-auto
         scrollbar="~ rounded w-4px gutter-stable"
         dark:scrollbar="track-color-dark-900 thumb-color-neutral-700/50"
         light:scrollbar="track-color-light-900 thumb-color-neutral-400/50"
       >
         <slot />
-        <div ref="bottomEl" dialog:px-0 dialog:pb-2 sticky bottom-0 />
+        <div ref="bottomEl" class="sticky bottom-0" />
       </main>
-      <footer ref="footerEl" dialog:px-0 dialog:pb-2 px-3 />
+      <footer ref="footerEl" class="px-3" />
     </div>
     <div ref="nextEl" class="next" />
   </div>

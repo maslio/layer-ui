@@ -88,11 +88,11 @@ async function onClick(e: Event) {
 <template>
   <div
     class="dialog:my-0"
-    :class="{ 'my-3 w-full dialog:px-2': !mini }"
+    :class="{ 'w-full dialog:px-2': !mini }"
   >
     <button
       ref="el"
-      class="min-h-11 w-full rounded-xl text-sm font-500 desktop:min-h-10"
+      class="dialog:min-h-9 max-h-full min-h-11 w-full rounded-xl text-sm font-500 desktop:min-h-10"
       :color
       :disabled="isDisabled"
       :class="{ clickable: !isDisabled, mini, flat, selected }"
