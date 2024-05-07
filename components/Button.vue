@@ -77,8 +77,8 @@ async function onClick(e: Event) {
 
 <template>
   <div
-    class="embeded:my-0"
-    :class="{ 'my-3 w-full embeded:px-2': !mini }"
+    class="dialog:my-0"
+    :class="{ 'my-3 w-full dialog:px-2': !mini }"
   >
     <button
       ref="el"

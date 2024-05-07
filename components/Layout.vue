@@ -45,15 +45,15 @@ provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, foote
   <div
     ref="itemEl"
     class="layout absolute h-full w-full flex justify-center overflow-hidden"
-    color="back embeded:default"
-    min-w-250px
-    embeded:relative embeded:h-auto embeded:w-auto
+    color="back dialog:default"
+
+    dialog:relative dialog:h-auto dialog:w-auto min-w-200px
     :class="{ mobile: isMini }"
   >
     <div ref="pageEl" class="page relative" h-full flex flex-col :style="styleRoot">
       <header
         v-if="!noHeader"
-        class="group header h-14 flex items-center gap-2 p-3 embeded:h-12 embeded:p-2"
+        class="group header dialog:h-12 dialog:p-2 h-14 flex items-center gap-2 p-3"
       >
         <Button v-if="closeIcon" flat mini :icon="closeIcon" @click="close" />
         <div v-else w-1 />
@@ -63,15 +63,15 @@ provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, foote
         <div ref="menuEl" h-10 flex flex-nowrap items-center />
       </header>
       <main
-        class="relative flex-1 overflow-x-hidden overflow-y-auto pb-3 pl-3 pr-2 embeded:px-0 embeded:pb-0 embeded:first:pt-2"
-        embeded:scrollbar-gutter-auto
+        class="dialog:px-0 dialog:pb-0 dialog:first:pt-2 relative flex-1 overflow-x-hidden overflow-y-auto pb-3 pl-3 pr-2"
+        dialog:scrollbar-gutter-auto
         scrollbar="~ rounded w-4px gutter-stable"
         dark:scrollbar="track-color-dark-900 thumb-color-neutral-700/50"
         light:scrollbar="track-color-light-900 thumb-color-neutral-400/50"
       >
         <slot />
       </main>
-      <div ref="footerEl" px-3 embeded:px-0 embeded:pb-2 />
+      <div ref="footerEl" dialog:px-0 dialog:pb-2 px-3 />
     </div>
     <div ref="nextEl" class="next" />
   </div>
@@ -93,7 +93,7 @@ provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, foote
 .layout > .page {
   --uno: transition-transform-300;
 }
-.embeded .layout > .page {
+.dialog .layout > .page {
   --uno: transition-transform-200;
 }
 .mobile:has(> .next > .layout.v-leave-active) {
@@ -119,7 +119,7 @@ provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, foote
 .mobile > .next > .layout {
   --uno: translate-x--100% transition-300;
 }
-.embeded .mobile > .next > .layout {
+.dialog .mobile > .next > .layout {
   --uno: translate-x--100% transition-200;
 }
 */

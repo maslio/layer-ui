@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import type { Component } from 'vue'
-import type { Placement } from '@floating-ui/vue'
-import OpenNext from './Open:Next.vue'
-import OpenFloat from './Open:Float.vue'
-import OpenModal from './Open:Modal.vue'
-import OpenFull from './Open:Full.vue'
+import type { Placement as DialogPlacement } from './OpenDialog.vue'
+import type { Placement as ModalPlacement } from './OpenModal.vue'
+import OpenNext from './OpenNext.vue'
+import OpenModal from './OpenModal.vue'
+import OpenFull from './OpenFull.vue'
+import OpenDialog from './OpenDialog.vue'
 
-export type Target = 'next' | 'float' | 'modal' | 'full'
+export type Target = 'next' | 'modal' | 'full' | 'dialog'
 export interface Props {
   label?: string
   width?: number
@@ -14,13 +15,14 @@ export interface Props {
   mobile?: Target
   header?: boolean
   parent?: HTMLElement
-  placement?: Placement
+  placement?: DialogPlacement | ModalPlacement
+  blur?: boolean
   component?: Component
   props?: Record<string, any>
 }
 const props = withDefaults(defineProps<Props>(), {
   target: 'next',
-  placement: 'bottom-end',
+  blur: true,
 })
 defineSlots<{
   default: () => any
@@ -32,12 +34,12 @@ const is = computed(() => {
   const target = props.mobile ?? props.target
   if (target === 'next')
     return OpenNext
-  if (target === 'float')
-    return OpenFloat
   if (target === 'modal')
     return OpenModal
   if (target === 'full')
     return OpenFull
+  if (target === 'dialog')
+    return OpenDialog
   return OpenNext
 })
 const selected = defineModel<boolean>({ default: false })

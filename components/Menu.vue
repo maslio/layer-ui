@@ -10,7 +10,7 @@ const { menuEl } = useLayout()
 
 <template>
   <Teleport v-if="menuEl" :to="menuEl">
-    <Button mini flat :icon :open-header="label != null" :open-label="label">
+    <Button mini flat :icon :open="{ target: 'dialog', placement: 'bottom-end' }">
       <slot />
     </Button>
   </Teleport>

@@ -24,13 +24,11 @@ async function action() {
 
   <Label>Actions</Label>
   <Button :action label="Action" />
-  <Button label="Modal" open="modal">
-    <Item label="Hello world" text-center />
+  <Button label="Modal" :open="{ target: 'modal', placement: 'page-bottom' }">
     <Button :action label="Action" />
     <Button :action label="Action" />
   </Button>
-  <Button label="Modal" open="float">
-    <Item label="Hello world" text-center />
+  <Button label="Dialog" open="dialog">
     <Button :action label="Action" />
     <Button :action label="Action" />
   </Button>
