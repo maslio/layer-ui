@@ -19,9 +19,16 @@ const props = withDefaults(defineProps<{
 }>(), {
   color: 'default',
   actionDelay: 500,
-  open: 'float',
+  open: 'dialog',
 })
+
 const emit = defineEmits(['click'])
+
+defineSlots<{
+  default: (props: {
+    close: () => void
+  }) => any
+}>()
 
 const el = ref() as Ref<HTMLElement>
 const slots = useSlots()

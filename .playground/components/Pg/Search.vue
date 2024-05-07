@@ -49,12 +49,13 @@ const SearchItem = defineAsyncComponent(() => import('./SearchItem.vue'))
 </script>
 
 <template>
-  <Menu label="Sort By">
-    <InputOption v-model="query.sort" value="id" label="ID" />
-    <InputOption v-model="query.sort" value="name" label="Name" />
+  <Menu v-slot="{ close }" label="Sort By">
+    <InputOption v-model="query.sort" value="id" label="ID" @update:model-value="close" />
+    <InputOption v-model="query.sort" value="name" label="Name" @update:model-value="close" />
   </Menu>
   <List
     :items keys="id"
+    :query
     :component="SearchItem"
     total input
   />

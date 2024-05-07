@@ -12,9 +12,9 @@ const props = withDefaults(defineProps<{
   placement: Placement
   parent: HTMLElement
 }>(), {
-  width: 250,
 })
 const { pageEl } = useLayout()
+const width = ref(0)
 const parent = toRef(() => props.parent)
 const placement = toRef(() => props.placement)
 const selected = defineModel<boolean>()
@@ -33,6 +33,7 @@ function close() {
   selected.value = false
 }
 function open() {
+  width.value = props.width ?? pageEl.value.clientWidth
   error.value = null
   selected.value = true
 }
@@ -62,7 +63,7 @@ useResizeObserver(layout, (entries) => {
       light="ring-neutral-200"
     >
       <div :style="{ height: height ? `${height}px` : 'auto' }" class="transition-height-100">
-        <Layout ref="layout" :label :width embeded :no-header="!header" :close>
+        <Layout ref="layout" :label embeded :no-header="!header" :close>
           <Open:Error v-if="error" :error @close="close" />
           <Suspense v-else @resolve="loading = false; update()" @pending="loading = true">
             <slot />

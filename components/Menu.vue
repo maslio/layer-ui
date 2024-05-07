@@ -5,13 +5,18 @@ withDefaults(defineProps<{
 }>(), {
   icon: 'more',
 })
+defineSlots<{
+  default: (props: {
+    close: () => void
+  }) => any
+}>()
 const { menuEl } = useLayout()
 </script>
 
 <template>
   <Teleport v-if="menuEl" :to="menuEl">
-    <Button mini flat :icon :open="{ target: 'dialog', placement: 'bottom-end' }">
-      <slot />
+    <Button v-slot="{ close }" mini flat :icon :open="{ target: 'modal', placement: 'page-top' }">
+      <slot :close />
     </Button>
   </Teleport>
 </template>
