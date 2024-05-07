@@ -20,7 +20,7 @@ const props = withDefaults(defineProps<{
   inputLabel?: string
   inputDebounce?: number
   query?: any
-  component: any
+  component?: any
 }>(), {
   limit: 5,
   inputLabel: 'Search',
@@ -152,7 +152,7 @@ await data.fetch()
   <Card>
     <div
       ref="list"
-      class="list overflow-hidden rounded-xl dialog:rounded-none"
+      class="list dialog:rounded-none overflow-hidden rounded-xl"
       color="default"
     >
       <template v-if="$props.input">
