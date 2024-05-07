@@ -6,6 +6,7 @@
   --uno: text-sm;
 }
 body {
+  overflow: hidden;
   --uno: color-back;
 }
 
