@@ -32,6 +32,7 @@ const pageEl = ref() as Ref<HTMLElement>
 const menuEl = ref() as Ref<HTMLElement>
 const nextEl = ref() as Ref<HTMLElement>
 const nextId = ref()
+const bottomEl = ref() as Ref<HTMLElement>
 const footerEl = ref() as Ref<HTMLElement>
 const id = useId()
 
@@ -39,7 +40,7 @@ function close() {
   props.close?.()
 }
 
-provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, footerEl, close, id })
+provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, footerEl, bottomEl, close, id })
 </script>
 
 <template>
@@ -72,8 +73,9 @@ provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, foote
         light:scrollbar="track-color-light-900 thumb-color-neutral-400/50"
       >
         <slot />
+        <div ref="bottomEl" dialog:px-0 dialog:pb-2 sticky bottom-0 />
       </main>
-      <div ref="footerEl" dialog:px-0 dialog:pb-2 px-3 />
+      <footer ref="footerEl" dialog:px-0 dialog:pb-2 px-3 />
     </div>
     <div ref="nextEl" class="next" />
   </div>

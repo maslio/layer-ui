@@ -5,6 +5,7 @@ export interface LayoutProvide {
   menuEl: Ref<HTMLElement>
   nextEl: Ref<HTMLElement>
   nextId: Ref<any>
+  bottomEl: Ref<HTMLElement>
   footerEl: Ref<HTMLElement>
   close: () => void
 }

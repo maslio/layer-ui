@@ -33,5 +33,8 @@ const layout = ref()
       <PgColorMode />
       <PgFullscreen :layout />
     </Card>
+    <Bottom>
+      <Button color="primary" label="Primary" />
+    </Bottom>
   </Layout>
 </template>

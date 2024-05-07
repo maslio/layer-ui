@@ -65,10 +65,17 @@ const modalPlacement = ref<typeof modalPlacements[number]>(modalPlacements[0])
   <Card>
     <Item label="Dialogs">
       <Button
-        v-for="i in 20" :key="i"
+        v-for="i in 10" :key="i"
         label="Dialog"
         :open="{ target: 'dialog', component: Content, props: { error, loading } }"
       />
+      <Bottom>
+        <Button
+          color="primary"
+          label="Dialog"
+          :open="{ target: 'dialog', component: Content, props: { error, loading } }"
+        />
+      </Bottom>
     </Item>
   </Card>
 </template>
