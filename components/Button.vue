@@ -48,7 +48,6 @@ const openProps = computed(() => {
       label: props.label,
     }
   }
-  // return defu(props.open, {label: props.label})
   return {
     target: props.open.target,
     label: props.open.label ?? props.label,

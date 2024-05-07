@@ -1,5 +1,9 @@
+<script setup lang="ts">
+const layout = ref()
+</script>
+
 <template>
-  <Layout label="Ui components">
+  <Layout ref="layout" label="Ui components">
     <Menu>
       <Item label="Item in menu" clickable />
       <Item label="Next">
@@ -27,6 +31,7 @@
     </Card>
     <Card>
       <PgColorMode />
+      <PgFullscreen :layout />
     </Card>
   </Layout>
 </template>
