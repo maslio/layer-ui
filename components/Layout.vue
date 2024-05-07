@@ -41,12 +41,9 @@ function close() {
 }
 
 const swipe = useSwipe(pageEl, {
-  onSwipe(e) {
-    if (swipe.direction.value === 'right') {
-      e.preventDefault()
-      if (isMini.value)
-        close()
-    }
+  onSwipe() {
+    if (swipe.direction.value === 'right' && isMini.value)
+      close()
   },
 })
 

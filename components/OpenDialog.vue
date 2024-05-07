@@ -37,6 +37,17 @@ function open() {
   error.value = null
   selected.value = true
 }
+
+const backdrop = ref<HTMLElement>()
+const swipe = useSwipe(backdrop, {
+  onSwipe() {
+    if (swipe.direction.value === 'up' && classItems.value === 'items-start')
+      close()
+    else if (swipe.direction.value === 'down' && classItems.value === 'items-end')
+      close()
+  },
+})
+
 defineExpose({ open, close })
 const dialog = ref()
 onErrorCaptured((e: Error) => {
@@ -66,8 +77,8 @@ onClickOutside(layout, (e) => {
     >
       <div
         v-if="selected"
-        fit flex justify-center
-        class="dialog text-light backdrop-blur-2"
+        ref="backdrop"
+        class="dialog fit flex justify-center text-light backdrop-blur-2"
         :class="classItems"
       >
         <div class="fit" @click="close" />
