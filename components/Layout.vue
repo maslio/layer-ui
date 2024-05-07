@@ -33,16 +33,18 @@ const menuEl = ref() as Ref<HTMLElement>
 const nextEl = ref() as Ref<HTMLElement>
 const nextId = ref()
 const footerEl = ref() as Ref<HTMLElement>
+const id = useId()
 
 function close() {
   props.close?.()
 }
 
-provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, footerEl, close })
+provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, footerEl, close, id })
 </script>
 
 <template>
   <div
+    :id
     ref="itemEl"
     class="layout absolute h-full w-full flex justify-center overflow-hidden"
     color="back dialog:default"
@@ -78,9 +80,6 @@ provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, foote
 </template>
 
 <style scoped>
-/* .layout {
-  --uno: transition-transform-300;
-} */
 .layout:has(+ .layout) {
   --uno: transition-transform-300;
 }
@@ -115,12 +114,4 @@ provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, foote
 .mobile > .next:has(> .layout.v-leave-active) {
   --uno: absolute;
 }
-/*
-.mobile > .next > .layout {
-  --uno: translate-x--100% transition-300;
-}
-.dialog .mobile > .next > .layout {
-  --uno: translate-x--100% transition-200;
-}
-*/
 </style>

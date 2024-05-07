@@ -32,7 +32,7 @@ onErrorCaptured((e: Error) => {
 </script>
 
 <template>
-  <Teleport v-if="nextEl" :to="nextEl">
+  <Teleport :to="nextEl">
     <Transition
       enter-from-class="translate-x-0!"
       enter-active-class="mobile:transition-300"
