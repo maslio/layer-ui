@@ -11,12 +11,12 @@ const props = withDefaults(defineProps<{
 const widthNumber = useToNumber(props.width)
 const freeWidth = ref(widthNumber.value)
 const rootWidth = ref(widthNumber.value)
-const itemEl = ref() as Ref<HTMLElement>
+const layoutEl = ref() as Ref<HTMLElement>
 const isMini = computed(() => {
   return rootWidth.value < 640
 })
 
-useResizeObserver(itemEl, (entries) => {
+useResizeObserver(layoutEl, (entries) => {
   const entry = entries[0]
   rootWidth.value = entry.contentRect.width
   freeWidth.value = entry.contentRect.width - widthNumber.value
@@ -40,13 +40,23 @@ function close() {
   props.close?.()
 }
 
+const swipe = useSwipe(pageEl, {
+  onSwipe(e) {
+    if (swipe.direction.value === 'right') {
+      e.preventDefault()
+      if (isMini.value)
+        close()
+    }
+  },
+})
+
 provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, footerEl, bottomEl, close, id })
 </script>
 
 <template>
   <div
     :id
-    ref="itemEl"
+    ref="layoutEl"
     class="layout absolute h-full w-full flex justify-center overflow-hidden text-base"
     color="back dialog:default"
 
