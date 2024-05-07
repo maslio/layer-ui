@@ -47,7 +47,7 @@ provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, foote
   <div
     :id
     ref="itemEl"
-    class="layout absolute h-full w-full flex justify-center overflow-hidden"
+    class="layout absolute h-full w-full flex justify-center overflow-hidden text-base"
     color="back dialog:default"
 
     dialog:relative dialog:h-auto dialog:w-auto min-w-200px

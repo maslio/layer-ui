@@ -99,10 +99,10 @@ const clickable = computed(() => {
         <slot v-if="$slots.main" name="main" />
       </div>
       <div v-else class="flex-1 flex-basis-2xl flex-nowrap overflow-hidden">
-        <div v-if="$props.label" class="text-sm" :class="{ truncate: !noTruncate }">
+        <div v-if="$props.label" class="text-base" :class="{ truncate: !noTruncate }">
           {{ label }}
         </div>
-        <div v-if="$props.caption" class="text-xs text-faint" :class="{ truncate: !noTruncate }">
+        <div v-if="$props.caption" class="text-sm text-faint" :class="{ truncate: !noTruncate }">
           {{ caption }}
         </div>
       </div>

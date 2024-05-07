@@ -92,7 +92,7 @@ async function onClick(e: Event) {
   >
     <button
       ref="el"
-      class="dialog:min-h-9 max-h-full min-h-11 w-full rounded-xl text-sm font-500 desktop:min-h-10"
+      class="max-h-full min-h-11 w-full rounded-xl font-500 desktop:min-h-10"
       :color
       :disabled="isDisabled"
       :class="{ clickable: !isDisabled, mini, flat, selected }"
