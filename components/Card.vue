@@ -1,13 +1,23 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   label?: string
   caption?: string
+  grid?: '1' | '2' | '3'
   class?: any
 }>()
 defineSlots<{
   default: () => any
   label: () => any
 }>()
+const grid = computed(() => {
+  if (props.grid === '1')
+    return 'grid grid-cols-1'
+  if (props.grid === '2')
+    return 'grid grid-cols-2'
+  if (props.grid === '3')
+    return 'grid grid-cols-3'
+  return ''
+})
 </script>
 
 <template>
@@ -19,7 +29,11 @@ defineSlots<{
       <slot v-if="$slots.label" name="label" />
       <span v-else>{{ label }}</span>
     </div>
-    <div class="card dialog:rounded-none overflow-hidden rounded-xl" color="default" :class="$props.class">
+    <div
+      class="card overflow-hidden rounded-xl dialog:rounded-none"
+      color="default"
+      :class="[$props.class, grid]"
+    >
       <slot />
     </div>
     <div v-if="caption" mb-3 mt-1 pl-3 text-sm font-300 text-faint>
