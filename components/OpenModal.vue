@@ -53,7 +53,7 @@ const css = computed(() => {
 </script>
 
 <template>
-  <Teleport :to="placement === 'center' ? 'body' : pageEl">
+  <Teleport v-if="pageEl" :to="placement === 'center' ? 'body' : pageEl">
     <Transition
       :enter-from-class="css.transition"
       enter-active-class="transition-200 children:transition-200"

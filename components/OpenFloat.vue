@@ -53,7 +53,7 @@ useResizeObserver(layout, (entries) => {
 </script>
 
 <template>
-  <Teleport :to="pageEl">
+  <Teleport v-if="pageEl" :to="pageEl">
     <div
       v-if="selected"
       ref="target"

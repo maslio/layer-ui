@@ -57,13 +57,13 @@ provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, foote
     class="layout absolute h-full w-full flex justify-center overflow-hidden text-base"
     color="back dialog:default"
 
-    dialog:relative dialog:h-auto dialog:w-auto min-w-200px
+    min-w-200px dialog:relative dialog:h-auto dialog:w-auto
     :class="{ mobile: isMini }"
   >
     <div ref="pageEl" class="page relative" h-full flex flex-col :style="styleRoot">
       <header
         v-if="!noHeader"
-        class="group header dialog:h-12 dialog:p-2 h-14 flex items-center gap-2 p-3"
+        class="group header h-14 flex items-center gap-2 p-3 dialog:h-12 dialog:p-2"
       >
         <Button
           v-if="closeIcon" flat mini
@@ -77,7 +77,7 @@ provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, foote
         <div ref="menuEl" h-10 flex flex-nowrap items-center />
       </header>
       <main
-        class="dialog:px-0 dialog:pb-2 dialog:gap-0 dialog:first:pt-2 relative flex flex-1 flex-col gap-3 overflow-x-hidden overflow-y-auto p-3 pt-0"
+        class="relative flex flex-1 flex-col gap-3 overflow-x-hidden overflow-y-auto p-3 pt-0 dialog:gap-0 dialog:px-0 dialog:pb-2 dialog:first:pt-2"
         dialog:scrollbar-gutter-auto
         scrollbar="~ rounded w-4px gutter-stable"
         dark:scrollbar="track-color-dark-900 thumb-color-neutral-700/50"

@@ -68,7 +68,7 @@ onClickOutside(layout, (e) => {
 </script>
 
 <template>
-  <Teleport :to="pageEl">
+  <Teleport v-if="pageEl" :to="pageEl">
     <Transition
       :enter-from-class="classEnter"
       enter-active-class="transition-200 children:transition-200"

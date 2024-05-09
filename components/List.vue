@@ -152,7 +152,7 @@ await data.fetch()
   <Card>
     <div
       ref="list"
-      class="list dialog:rounded-none overflow-hidden rounded-xl"
+      class="list overflow-hidden rounded-xl dialog:rounded-none"
       color="default"
     >
       <template v-if="$props.input">

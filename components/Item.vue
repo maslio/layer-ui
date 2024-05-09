@@ -24,7 +24,7 @@ defineSlots<{
   main: () => any
   right: () => any
 }>()
-
+// console.log(props.label)
 const el = ref() as Ref<HTMLElement>
 const slots = useSlots()
 
@@ -125,7 +125,6 @@ const clickable = computed(() => {
     </div>
   </component>
   <Open
-    v-if="renderOpen"
     ref="open"
     v-bind="openProps"
     v-model="selected"
