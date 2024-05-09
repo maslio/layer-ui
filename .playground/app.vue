@@ -1,16 +1,25 @@
 <script setup lang="ts">
-const components = {
-  Button: [
-    { color: 'default', label: 'Button' },
-    { color: 'contrast', label: 'Button' },
-    { color: 'primary', label: 'Button' },
-    { color: 'positive', label: 'Button' },
-    { color: 'negative', label: 'Button' },
-  ],
-}
+
 </script>
 
 <template>
+  <Layout label="UI Playground">
+    <Card>
+      <PlaygroundItem
+        component="Button"
+        label="Button colors"
+        :props="{ label: 'Button' }"
+        :options="[
+          { props: { color: 'default' } },
+          { props: { color: 'contrast' } },
+          { props: { color: 'primary' } },
+          { props: { color: 'positive' } },
+          { props: { color: 'negative' } },
+        ]"
+      />
+    </Card>
+  </Layout>
+<!--
   <Playground label="UI" :components>
     <Card>
       <Item label="Items" icon="material-symbols:lists-rounded">
@@ -34,5 +43,5 @@ const components = {
     <Card>
       <PgColorMode />
     </Card>
-  </Playground>
+  </Playground> -->
 </template>
