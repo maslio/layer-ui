@@ -41,7 +41,7 @@ onErrorCaptured((e: Error) => {
         :close
         close-icon="back"
       >
-        <Open:Error v-if="error" :error @close="close" />
+        <OpenError v-if="error" :error @close="close" />
         <Suspense v-else @resolve="loading = false" @pending="loading = true">
           <slot />
           <template #fallback>

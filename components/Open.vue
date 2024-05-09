@@ -58,12 +58,12 @@ defineExpose({ open, close })
 
 <template>
   <Component
-    :is
+    :is="is"
     ref="target"
     v-model="selected"
     v-bind="$props"
   >
-    <Component :is="component" v-if="component" v-bind="$props.props" />
+    <Component :is="$props.component" v-if="$props.component" v-bind="$props.props" />
     <slot v-else />
   </Component>
 </template>

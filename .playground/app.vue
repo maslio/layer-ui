@@ -1,15 +1,17 @@
 <script setup lang="ts">
-const layout = ref()
+const components = {
+  Button: [
+    { color: 'default', label: 'Button' },
+    { color: 'contrast', label: 'Button' },
+    { color: 'primary', label: 'Button' },
+    { color: 'positive', label: 'Button' },
+    { color: 'negative', label: 'Button' },
+  ],
+}
 </script>
 
 <template>
-  <Layout ref="layout" label="Ui components">
-    <Menu>
-      <Item label="Item in menu" clickable />
-      <Item label="Next">
-        <Item label="Hello" />
-      </Item>
-    </Menu>
+  <Playground label="UI" :components>
     <Card>
       <Item label="Items" icon="material-symbols:lists-rounded">
         <PgItems />
@@ -31,10 +33,6 @@ const layout = ref()
     </Card>
     <Card>
       <PgColorMode />
-      <PgFullscreen :layout />
     </Card>
-    <Bottom>
-      <Button color="primary" label="Primary" />
-    </Bottom>
-  </Layout>
+  </Playground>
 </template>

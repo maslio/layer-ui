@@ -4,6 +4,10 @@ const props = defineProps<{
   components: Record<string, Record<string, any>[]>
 }>()
 
+defineSlots<{
+  default: () => void
+}>()
+
 const data = Object.entries(props.components)
   .map(([name, variants]) => ({ name, variants }))
 </script>
@@ -21,5 +25,6 @@ const data = Object.entries(props.components)
         <PlaygroundItem :label="one.name" :variants="one.variants" />
       </Item>
     </Card>
+    <slot />
   </Layout>
 </template>

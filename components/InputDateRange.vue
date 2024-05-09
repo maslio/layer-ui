@@ -84,11 +84,11 @@ const value = computed(() => {
           <div flex>
             <div flex-1 text-center>
               <label text-faint>Начало периода</label>
-              <InputDate:Input ref="input1" v-model="model[0]" label="Начало периода" @next="input2.select('day')" />
+              <InputDateInput ref="input1" v-model="model[0]" label="Начало периода" @next="input2.select('day')" />
             </div>
             <div flex-1 text-center>
               <label text-faint>Конец периода</label>
-              <InputDate:Input ref="input2" v-model="model[1]" label="Конец периода" @prev="input1.select('year')" />
+              <InputDateInput ref="input2" v-model="model[1]" label="Конец периода" @prev="input1.select('year')" />
             </div>
           </div>
         </div>
@@ -118,7 +118,7 @@ const value = computed(() => {
           :value="preset.value"
         />
       </Card>
-      <InputDate:Calendar :selected="calendarSelected" @select="onCalendarSelect" />
+      <InputDateCalendar :selected="calendarSelected" @select="onCalendarSelect" />
     </template>
   </Item>
 </template>

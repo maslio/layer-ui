@@ -27,7 +27,7 @@ const value = computed(() => {
       <Card>
         <div class="px-3 py-2 text-center">
           <label text-faint>Дата</label>
-          <InputDate:Input v-model="model" />
+          <InputDateInput v-model="model" />
         </div>
       </Card>
       <Card>
@@ -39,7 +39,7 @@ const value = computed(() => {
           :value="preset.value.format('YYYY-MM-DD')"
         />
       </Card>
-      <InputDate:Calendar :selected="[model]" @select="onCalendarSelect" />
+      <InputDateCalendar :selected="[model]" @select="onCalendarSelect" />
     </template>
   </Item>
 </template>

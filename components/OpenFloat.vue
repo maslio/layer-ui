@@ -64,7 +64,7 @@ useResizeObserver(layout, (entries) => {
     >
       <div :style="{ height: height ? `${height}px` : 'auto' }" class="transition-height-100">
         <Layout ref="layout" :label embeded :no-header="!header" :close>
-          <Open:Error v-if="error" :error @close="close" />
+          <OpenError v-if="error" :error @close="close" />
           <Suspense v-else @resolve="loading = false; update()" @pending="loading = true">
             <slot />
             <template #fallback>

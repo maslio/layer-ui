@@ -71,7 +71,8 @@ const icon = computed(() => {
 function close() {
   open.value?.close()
 }
-const tag = props.href ? 'a' : hasOpen ? 'button' : 'div'
+// const tag = props.href ? 'a' : hasOpen ? 'button' : 'div'
+const tag = props.href ? 'a' : 'div'
 const clickable = computed(() => {
   return props.clickable || props.href || hasOpen
 })

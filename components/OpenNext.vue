@@ -45,11 +45,11 @@ onErrorCaptured((e: Error) => {
         :close
         :close-icon="isMini ? 'back' : 'close'"
       >
-        <Open:Error v-if="error" :error @close="close" />
+        <OpenError v-if="error" :error @close="close" />
         <Suspense v-else @resolve="loading = false" @pending="loading = true">
           <slot />
           <template #fallback>
-            <Open:Loading />
+            <OpenLoading />
           </template>
         </Suspense>
       </Layout>

@@ -20,7 +20,7 @@ const variants = props.variants.map((props, index) => {
 
 const selected = ref(0)
 const component = resolveComponent(props.label)
-const bind = ref(variants[0].props)
+const bind = ref(variants[0].props) as Ref<any>
 const error = ref<Error | null>(null)
 
 watch(selected, async (index) => {

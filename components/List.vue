@@ -167,7 +167,7 @@ await data.fetch()
             <Icon name="spinner" animate-spin />
           </div>
           <div v-else-if="input" flex items-center text-faint>
-            <Item:Button icon="close" @click="input = ''" />
+            <ItemButton icon="close" @click="input = ''" />
           </div>
         </InputString>
         <Separator />

@@ -23,7 +23,7 @@ function toggle() {
 <template>
   <Item :label :clickable="!readonly" :caption @click="toggle">
     <template #left>
-      <InputOption:Dot :active />
+      <InputOptionDot :active />
     </template>
     <template v-if="$slots.default" #default>
       <slot :active />
