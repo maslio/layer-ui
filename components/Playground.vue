@@ -35,15 +35,16 @@ const bind = ref({
 })
 const error = ref<Error | null>(null)
 
-watch(selected, async (index) => {
+async function update() {
   error.value = null
   bind.value = null
   await nextTick()
   bind.value = {
     ...props.props,
-    ...options[index]?.props,
+    ...options[selected.value]?.props,
   }
-})
+}
+watch(selected, update)
 
 onErrorCaptured((e: Error) => {
   error.value = e
@@ -60,6 +61,7 @@ onErrorCaptured((e: Error) => {
       :value="index"
       :label="opt.label"
       font-mono
+      @click="update"
     />
   </Card>
   <template v-if="bind">
