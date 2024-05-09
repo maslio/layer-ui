@@ -10,6 +10,8 @@ const props = withDefaults(defineProps<{
   clickable?: boolean
   open?: Target | OpenProps
   href?: string
+  option?: boolean
+  selected?: boolean
   noTruncate?: boolean
   disabled?: boolean
 }>(), {
@@ -28,7 +30,7 @@ defineSlots<{
 const el = ref() as Ref<HTMLElement>
 const slots = useSlots()
 
-const selected = ref(false)
+const opened = ref(false)
 const hasOpen = slots.default != null || typeof props.open === 'object'
 const renderOpen = ref(false)
 const open = ref<null | InstanceType<typeof import('./Open.vue').default>>(null)
@@ -54,6 +56,8 @@ async function onClick(e: Event) {
   if (props.disabled)
     return
   emit('click', e)
+  if (props.option)
+    return
   if (hasOpen) {
     if (!renderOpen.value) {
       renderOpen.value = true
@@ -74,7 +78,7 @@ function close() {
 // const tag = props.href ? 'a' : hasOpen ? 'button' : 'div'
 const tag = props.href ? 'a' : 'div'
 const clickable = computed(() => {
-  return props.clickable || props.href || hasOpen
+  return props.clickable || props.option || props.href || hasOpen
 })
 </script>
 
@@ -83,7 +87,7 @@ const clickable = computed(() => {
     :is="tag"
     class="block min-h-11 w-full overflow-hidden text-left desktop:min-h-10"
     color="default"
-    :class="{ clickable, selected }"
+    :class="{ clickable, selected: opened }"
     :href="href"
     v-bind="$attrs"
     @click="onClick"
@@ -92,6 +96,9 @@ const clickable = computed(() => {
       ref="el"
       class="relative min-h-11 flex items-center gap-3 px-3 py-3 desktop:min-h-10 desktop:py-2"
     >
+      <div v-if="option">
+        <InputOptionDot :active="selected" />
+      </div>
       <slot v-if="$slots.left" name="left" />
       <div v-else-if="$props.icon" class="h-6 w-6 flex items-center justify-center rounded desktop:(h-5 w-5)">
         <Icon v-if="icon" :name="icon.name" :class="icon.class" rounded p-2px size="24" />
@@ -128,7 +135,7 @@ const clickable = computed(() => {
   <Open
     ref="open"
     v-bind="openProps"
-    v-model="selected"
+    v-model="opened"
     :parent="el"
   >
     <slot :close />

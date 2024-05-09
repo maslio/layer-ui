@@ -2,7 +2,7 @@
 export interface Props {
   component: string
   props?: any
-  options: {
+  options?: {
     label?: string
     props: any
   }[]
@@ -22,14 +22,16 @@ function propsToString(props: Record<string, any>) {
 }
 
 const component = resolveComponent(props.component)
-const options = props.options.map(o => ({
-  props: o.props,
-  label: o.label ?? propsToString(o.props),
-}))
+const options = !props.options
+  ? []
+  : props.options.map(o => ({
+    props: o.props,
+    label: o.label ?? propsToString(o.props),
+  }))
 const selected = ref(0)
 const bind = ref({
   ...props.props,
-  ...options[selected.value].props,
+  ...options[selected.value]?.props,
 })
 const error = ref<Error | null>(null)
 
@@ -39,7 +41,7 @@ watch(selected, async (index) => {
   await nextTick()
   bind.value = {
     ...props.props,
-    ...options[index].props,
+    ...options[index]?.props,
   }
 })
 

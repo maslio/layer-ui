@@ -17,6 +17,8 @@
           { props: { color: 'negative' } },
         ]"
       />
+      <PlaygroundItem component="PgSearch" label="Search" />
+      <PlaygroundItem component="PgSelect" label="Select" />
     </Card>
   </Layout>
 <!--
