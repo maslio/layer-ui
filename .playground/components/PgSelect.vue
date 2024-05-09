@@ -9,11 +9,16 @@ const options = users.map(u => ({
   value: u.id,
 }))
 const model = ref()
+const modelMulti = ref([])
 </script>
 
 <template>
   <Card>
     <InputSelect v-model="model" label="Select 1" :options input />
     <InputSelect v-model="model" label="Select 2" :options />
+  </Card>
+  <Card>
+    <InputSelectMulti v-model="modelMulti" label="Select 3" :options input />
+    <InputSelectMulti v-model="modelMulti" label="Select 4" :options />
   </Card>
 </template>
