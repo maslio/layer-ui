@@ -8,6 +8,12 @@ const props = withDefaults(defineProps<{
 }>(), {
   width: 320,
 })
+
+defineSlots<{
+  default: () => void
+  placeholder: () => void
+}>()
+
 const widthNumber = useToNumber(props.width)
 const freeWidth = ref(widthNumber.value)
 const rootWidth = ref(widthNumber.value)
@@ -88,7 +94,11 @@ provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, foote
       </main>
       <footer ref="footerEl" class="px-3" />
     </div>
-    <div ref="nextEl" class="next" />
+    <div ref="nextEl" class="next">
+      <div v-if="$slots.placeholder" class="fit hidden last:block">
+        <slot name="placeholder" />
+      </div>
+    </div>
   </div>
 </template>
 
