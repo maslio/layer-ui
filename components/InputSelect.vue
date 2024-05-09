@@ -7,7 +7,7 @@ interface Props extends SelectProps {
 const { options } = defineProps<Props>()
 const model = defineModel<string | number>()
 const value = computed(() => {
-  if (!model.value)
+  if (model.value == null)
     return ''
   const option = options.find(o => o.value === model.value)
   if (option)
